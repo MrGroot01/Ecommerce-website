@@ -1,27 +1,33 @@
-# React E-Commerce Website
+# 🛒 React E-Commerce Website
 
-A modern **React-based eCommerce web application** where users can browse products, add them to the cart, manage quantities, and contact support through an integrated email system.
+A modern **React-based eCommerce web application** where users can browse products, add items to the cart, manage quantities, and contact support through an integrated email system.
 
-This project is built using **React with Vite** for fast development and performance.
-
----
-
-## Features
-
-* Product listing with images and prices
-* Add to Cart functionality
-* Increase / decrease product quantity
-* Remove products from cart
-* Clear all items from cart
-* Total cart price calculation
-* Contact form with email sending using EmailJS
-* Category navigation on the home page
-* Random image gallery using API
-* Responsive and modern UI design
+Built using **React + Vite** for fast performance and modern development.
 
 ---
 
-## Tech Stack
+## 🌐 Live Demo
+
+🔗 https://ecomerce-website-gold.vercel.app
+
+---
+
+## ✨ Features
+
+* 🛍 Product listing with images and prices
+* ➕ Add to Cart functionality
+* 🔼 Increase / decrease product quantity
+* ❌ Remove products from cart
+* 🧹 Clear all items from cart
+* 💰 Total cart price calculation
+* 📩 Contact form with EmailJS integration
+* 🗂 Category navigation on home page
+* 🖼 Random image gallery using API
+* 📱 Responsive modern UI
+
+---
+
+## 🛠 Tech Stack
 
 * React.js
 * JavaScript (ES6+)
@@ -33,7 +39,7 @@ This project is built using **React with Vite** for fast development and perform
 
 ---
 
-## Project Structure
+## 📂 Project Structure
 
 ```
 src/
@@ -52,7 +58,7 @@ src/
 
 ---
 
-## Installation
+## ⚙️ Installation
 
 Clone the repository
 
@@ -60,7 +66,7 @@ Clone the repository
 git clone https://github.com/MrGroot01/Ecommerce-website.git
 ```
 
-Navigate to the project folder
+Navigate to project folder
 
 ```
 cd Ecommerce-website
@@ -72,13 +78,13 @@ Install dependencies
 npm install
 ```
 
-Run the development server
+Run development server
 
 ```
 npm run dev
 ```
 
-Open the browser and visit
+Open browser
 
 ```
 http://localhost:5173
@@ -86,22 +92,31 @@ http://localhost:5173
 
 ---
 
-## Screenshots
+## 📸 Screenshots
 
-You can add screenshots of your project here after deployment.
+### Home Page
 
-Example:
+<img width="1920" height="1080" src="https://github.com/user-attachments/assets/952aa5df-cc18-44b1-934d-d388c6714a11" />
 
-```
-Home Page Screenshot
-Products Page Screenshot
-Cart Page Screenshot
-Contact Page Screenshot
-```
+### Products Page
+
+<img width="1920" height="1080" src="https://github.com/user-attachments/assets/5ef5a4ee-83e3-4a3f-bbd3-f4e3bc10b38e" />
+
+### Cart Page
+
+<img width="1920" height="1080" src="https://github.com/user-attachments/assets/c6fe06b7-d6ea-40e7-8c63-dc372c16b6fe" />
+
+### Contact Page
+
+<img width="1920" height="1080" src="https://github.com/user-attachments/assets/8fa3d0a9-152b-407d-bb8c-44f3d6a9e174" />
+
+### Random Image Gallery
+
+<img width="1920" height="1080" src="https://github.com/user-attachments/assets/3499e363-2708-4ebb-81f6-f71927f6c040" />
 
 ---
 
-## Future Improvements
+## 🚀 Future Improvements
 
 * Product search functionality
 * Wishlist feature
@@ -111,26 +126,14 @@ Contact Page Screenshot
 * Product filtering and sorting
 
 ---
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/952aa5df-cc18-44b1-934d-d388c6714a11" />
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/5ef5a4ee-83e3-4a3f-bbd3-f4e3bc10b38e" />
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/c6fe06b7-d6ea-40e7-8c63-dc372c16b6fe" />
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/8fa3d0a9-152b-407d-bb8c-44f3d6a9e174" />
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/3499e363-2708-4ebb-81f6-f71927f6c040" />
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/46688991-1284-44cd-a39b-d296adee4b2f" />
 
+## 👨‍💻 Author
 
-
-
-
-
-
-## Author
-
-Kiran
+**Kiran**
 Frontend Developer
 
 ---
 
-## License
+## 📜 License
 
 This project is open source and available under the MIT License.
