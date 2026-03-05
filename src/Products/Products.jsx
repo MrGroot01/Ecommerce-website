@@ -16,7 +16,7 @@ const Products = () => {
 
           <img src={ele.image} alt={ele.title} />
 
-          <h4 className="price">₹ {ele.price}</h4>
+          <h4 className="price">₹ {ele.price.toFixed(0)}</h4>
 
           <p className="rating">⭐ {ele.rating.rate}</p>
 

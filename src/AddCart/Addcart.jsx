@@ -61,7 +61,7 @@ const Addcart = () => {
         </tbody>
       </table>
 
-      <h2>Total Price: ${price1.toFixed(2)}</h2>
+      <h2>Total Price: ${price1.toFixed(0)}</h2>
       <button className="clear" onClick={clear1}>
         Clear Cart
       </button>
