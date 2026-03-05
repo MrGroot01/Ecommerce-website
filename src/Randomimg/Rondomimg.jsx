@@ -25,19 +25,22 @@ const Rondomimg = () => {
   }, [count]);
   return (
     <div>
-    <div className="r-container">
-      {c_fetch.map((e) => (
-        <div  className="count-container">
-          <span>{e.id}</span>
-          <h2>{e.author}</h2>
-          <img src={e.download_url}  />
-
-        </div>
-      ))}
-    </div >
-    <div className="btn">
-      <button className="decre" onClick={previes}>Previous</button>
-      <button className="incre" onClick={next}>NextPage</button>
+      <div className="r-container">
+        {c_fetch.map((e) => (
+          <div key={e.id} className="count-container">
+            <span>{e.id}</span>
+            <h2>{e.author}</h2>
+            <img src={e.download_url} />
+          </div>
+        ))}
+      </div>
+      <div className="btn">
+        <button className="decre" onClick={previes}>
+          Previous
+        </button>
+        <button className="incre" onClick={next}>
+          NextPage
+        </button>
       </div>
     </div>
   );

@@ -16,10 +16,9 @@ export const price_data = createContext();
 export const deleta_datas = createContext();
 export const increment = createContext();
 export const decrement = createContext();
-export const cleardata = createContext()
+export const cleardata = createContext();
 
 const App = () => {
-
   const [data, setdata] = useState([]);
   const [datacart, setcart] = useState([]);
   const [price, setprice] = useState(0);
@@ -39,9 +38,13 @@ const App = () => {
   const fetch_cart = (item) => {
     const add = [...datacart];
     item.qyt = 1;
-    add.push(item);
-    setcart(add);
-    setprice(price + item.price);
+    if (add.includes(item)) {
+      alert("You Have alreday have product go and see in cart");
+    } else {
+      add.push(item);
+      setcart(add);
+      setprice(price + item.price);
+    }
   };
 
   // Delete Item
@@ -80,40 +83,37 @@ const App = () => {
     }
   };
 
-  const clear = ()=>{
-    setcart([])
-    setprice(0)
-  }
+  const clear = () => {
+    setcart([]);
+    setprice(0);
+  };
   return (
     <div>
-      
       <cleardata.Provider value={clear}>
-      <decrement.Provider value={dec}>
-        <increment.Provider value={inc}>
-          <deleta_datas.Provider value={deletes}>
-            <price_data.Provider value={price}>
-              <add_cart.Provider value={datacart}>
-                <f_data.Provider value={data}>
-                  <cart_data.Provider value={fetch_cart}>
-                    <Navbar />
-                    <Routes>
-                      <Route path="/" element={<Home />} />
-                      <Route path="/About" element={<About />} />
-                      <Route path="/Products" element={<Products />} />
-                      <Route path="/Contact" element={<Contact />} />
-                      <Route path="/Addcart" element={<Addcart />} />
-                      <Route path="/Rondomimg" element={<Rondomimg />}/>
-                    </Routes>
-
-                  </cart_data.Provider>
-                </f_data.Provider>
-              </add_cart.Provider>
-            </price_data.Provider>
-          </deleta_datas.Provider>
-        </increment.Provider>
-      </decrement.Provider>
+        <decrement.Provider value={dec}>
+          <increment.Provider value={inc}>
+            <deleta_datas.Provider value={deletes}>
+              <price_data.Provider value={price}>
+                <add_cart.Provider value={datacart}>
+                  <f_data.Provider value={data}>
+                    <cart_data.Provider value={fetch_cart}>
+                      <Navbar />
+                      <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/About" element={<About />} />
+                        <Route path="/Products" element={<Products />} />
+                        <Route path="/Contact" element={<Contact />} />
+                        <Route path="/Addcart" element={<Addcart />} />
+                        <Route path="/Rondomimg" element={<Rondomimg />} />
+                      </Routes>
+                    </cart_data.Provider>
+                  </f_data.Provider>
+                </add_cart.Provider>
+              </price_data.Provider>
+            </deleta_datas.Provider>
+          </increment.Provider>
+        </decrement.Provider>
       </cleardata.Provider>
-
     </div>
   );
 };

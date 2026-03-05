@@ -20,7 +20,7 @@ const Home = () => {
 
       <div className="categories">
         <Link to="/Products" className="cat-card green">
-          <h3 >Pharmacy</h3>
+          <h3>Pharmacy</h3>
           <p>Medicines & health essentials</p>
         </Link>
 
@@ -49,7 +49,7 @@ const Home = () => {
           <p>Safe and smooth checkout experience</p>
         </div>
       </div>
-    
+
       <footer className="footer">
         <p>© 2026 My Shopping Website. All Rights Reserved.</p>
       </footer>

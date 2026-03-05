@@ -15,7 +15,7 @@ const Addcart = () => {
   const delete1 = useContext(deleta_datas);
   const incr1 = useContext(increment);
   const decr1 = useContext(decrement);
-  const clear1 = useContext(cleardata)
+  const clear1 = useContext(cleardata);
 
   return (
     <div className="add-container">
@@ -44,12 +44,17 @@ const Addcart = () => {
               </td>
 
               <td>
-                <button  className="low" onClick={() => decr1(index)}>-</button>
+                <button className="low" onClick={() => decr1(index)}>
+                  -
+                </button>
 
-                <button className="del" onClick={() => delete1(index)}>delete</button>
+                <button className="del" onClick={() => delete1(index)}>
+                  delete
+                </button>
 
-                <button className="high" onClick={() => incr1(index)}>+</button>
-
+                <button className="high" onClick={() => incr1(index)}>
+                  +
+                </button>
               </td>
             </tr>
           ))}
@@ -57,7 +62,9 @@ const Addcart = () => {
       </table>
 
       <h2>Total Price: ${price1.toFixed(2)}</h2>
-      <button className="clear" onClick={clear1}>Clear Cart</button>
+      <button className="clear" onClick={clear1}>
+        Clear Cart
+      </button>
     </div>
   );
 };

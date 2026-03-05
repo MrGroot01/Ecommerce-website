@@ -4,7 +4,6 @@ import "./About.css";
 const About = () => {
   return (
     <section className="about-container">
-
       <div className="about-header">
         <h1>About Our Company</h1>
         <p>
@@ -34,12 +33,11 @@ const About = () => {
       </div>
 
       <div className="about-features">
-
         <div className="feature-card">
           <h3>🚚 Fast Delivery</h3>
           <p>
-            Our advanced logistics network ensures that your products reach
-            you quickly and safely.
+            Our advanced logistics network ensures that your products reach you
+            quickly and safely.
           </p>
         </div>
 
@@ -66,7 +64,6 @@ const About = () => {
             experience.
           </p>
         </div>
-
       </div>
 
       <div className="stats">
@@ -94,7 +91,6 @@ const About = () => {
       <footer className="about-footer">
         <p>© 2026 QuickCart. All Rights Reserved.</p>
       </footer>
-
     </section>
   );
 };

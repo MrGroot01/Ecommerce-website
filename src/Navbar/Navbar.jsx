@@ -8,8 +8,9 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-
-      <Link to='/' className="logo">MyShop</Link>
+      <Link to="/" className="logo">
+        MyShop
+      </Link>
 
       <div className="nav-links">
         <Link to="/">Home</Link>
@@ -23,7 +24,6 @@ const Navbar = () => {
         <Link to="/Addcart">🛒 Cart</Link>
         <span className="cart-count">{arr.length}</span>
       </div>
-
     </nav>
   );
 };
