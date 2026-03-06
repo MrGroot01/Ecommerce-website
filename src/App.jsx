@@ -19,11 +19,19 @@ export const decrement = createContext();
 export const cleardata = createContext();
 
 const App = () => {
+
   const [data, setdata] = useState([]);
-  const [datacart, setcart] = useState([]);
+
+  /* CART STATE (LOAD FROM LOCAL STORAGE) */
+  const [datacart, setcart] = useState(() => {
+    const savedCart = localStorage.getItem("cart");
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
+
   const [price, setprice] = useState(0);
 
-  // Fetch Products
+
+  /* FETCH PRODUCTS */
   const fetch_data = async () => {
     const datas = await fetch("https://ecommerceapidata.onrender.com/api/");
     const final_data = await datas.json();
@@ -34,61 +42,78 @@ const App = () => {
     fetch_data();
   }, []);
 
-  // Add to Cart
+
+  /* SAVE CART TO LOCAL STORAGE */
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(datacart));
+  }, [datacart]);
+
+
+  /* RECALCULATE TOTAL PRICE */
+  useEffect(() => {
+    const total = datacart.reduce(
+      (sum, item) => sum + item.price * (item.qyt || 1),
+      0
+    );
+    setprice(total);
+  }, [datacart]);
+
+
+  /* ADD TO CART */
   const fetch_cart = (item) => {
     const add = [...datacart];
-    item.qyt = 1;
-    if (add.includes(item)) {
-      alert("You Have alreday have product go and see in cart");
+
+    const exists = add.some((i) => i.id === item.id);
+
+    if (exists) {
+      alert("Product already added to cart");
     } else {
-      add.push(item);
+      add.push({ ...item, qyt: 1 });
       setcart(add);
-      setprice(price + item.price);
     }
   };
 
-  // Delete Item
+
+  /* DELETE ITEM */
   const deletes = (index) => {
     const add = [...datacart];
-    const item = add[index];
-
     add.splice(index, 1);
-
     setcart(add);
-    setprice(price - item.price);
   };
 
-  // Increment Quantity
+
+  /* INCREMENT */
   const inc = (index) => {
     const add = [...datacart];
-    const item = add[index];
-
-    item.qyt = (item.qyt || 1) + 1;
-
+    add[index].qyt += 1;
     setcart(add);
-    setprice(price + item.price);
   };
 
-  // Decrement Quantity
+
+  /* DECREMENT */
   const dec = (index) => {
     const add = [...datacart];
-    const item = add[index];
 
-    if ((item.qyt || 1) > 1) {
-      item.qyt -= 1;
-      setprice(price - item.price);
+    if (add[index].qyt > 1) {
+      add[index].qyt -= 1;
       setcart(add);
     } else {
       alert("Quantity is 1. Use delete button");
     }
   };
 
+
+  /* CLEAR CART */
   const clear = () => {
     setcart([]);
     setprice(0);
+    localStorage.removeItem("cart");
   };
+
+
   return (
     <div>
+
       <cleardata.Provider value={clear}>
         <decrement.Provider value={dec}>
           <increment.Provider value={inc}>
@@ -97,7 +122,9 @@ const App = () => {
                 <add_cart.Provider value={datacart}>
                   <f_data.Provider value={data}>
                     <cart_data.Provider value={fetch_cart}>
+
                       <Navbar />
+
                       <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/About" element={<About />} />
@@ -106,6 +133,7 @@ const App = () => {
                         <Route path="/Addcart" element={<Addcart />} />
                         <Route path="/Rondomimg" element={<Rondomimg />} />
                       </Routes>
+
                     </cart_data.Provider>
                   </f_data.Provider>
                 </add_cart.Provider>
@@ -114,6 +142,7 @@ const App = () => {
           </increment.Provider>
         </decrement.Provider>
       </cleardata.Provider>
+
     </div>
   );
 };
