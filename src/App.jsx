@@ -25,7 +25,7 @@ const App = () => {
 
   // Fetch Products
   const fetch_data = async () => {
-    const datas = await fetch("https://fakestoreapi.com/products");
+    const datas = await fetch("https://ecommerceapidata.onrender.com/api/");
     const final_data = await datas.json();
     setdata(final_data);
   };

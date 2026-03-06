@@ -12,13 +12,14 @@ const Products = () => {
         <div className="p_container" key={ele.id}>
           <span className="pid">{ele.id}</span>
 
-          <h3 className="title">{ele.title}</h3>
+          <h3 className="title">{ele.name}</h3>
 
           <img src={ele.image} alt={ele.title} />
 
           <h4 className="price">₹ {ele.price.toFixed(0)}</h4>
+          <p>{ele.description}</p>
 
-          <p className="rating">⭐ {ele.rating.rate}</p>
+          {/* <p className="rating">⭐ {ele.rating.rate}</p> */}
 
           <button className="cart-btn" onClick={() => cart1(ele)}>
             Add Cart
