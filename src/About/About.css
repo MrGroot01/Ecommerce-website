@@ -3,11 +3,11 @@
   background: #f8f9fb;
 }
 
+
 .about-header {
   background-image: url("https://images.unsplash.com/photo-1542838132-92c53300491e");
   background-size: cover;
   background-position: center;
-
   color: white;
   text-align: center;
   padding: 120px 20px;
@@ -42,6 +42,7 @@
   line-height: 1.6;
 }
 
+
 .about-section {
   background: #f5f7fb;
   padding: 60px 120px;
@@ -59,6 +60,7 @@
   font-size: 16px;
 }
 
+
 .about-features {
   background: white;
   padding: 70px 120px;
@@ -71,9 +73,7 @@
   background: #ffffff;
   padding: 30px;
   border-radius: 14px;
-
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-
   transition: 0.3s;
 }
 
@@ -91,14 +91,13 @@
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
 }
 
+
 .stats {
   background: linear-gradient(90deg, #ff512f, #dd2476);
   color: white;
   padding: 80px 40px;
-
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-
   text-align: center;
 }
 
@@ -107,10 +106,84 @@
   margin-bottom: 5px;
 }
 
+
 .about-footer {
   background: #111;
   color: white;
   text-align: center;
   padding: 25px;
   font-size: 15px;
+}
+
+
+
+
+@media (max-width: 1024px) {
+
+.about-section {
+  padding: 50px 60px;
+}
+
+.about-features {
+  padding: 50px 60px;
+}
+
+}
+
+
+@media (max-width: 768px) {
+
+.about-header {
+  padding: 80px 20px;
+}
+
+.about-header h1 {
+  font-size: 30px;
+}
+
+.about-header p {
+  font-size: 16px;
+}
+
+.about-section {
+  padding: 40px 20px;
+}
+
+.about-features {
+  padding: 40px 20px;
+}
+
+.feature-card {
+  padding: 20px;
+}
+
+.stats {
+  padding: 50px 20px;
+}
+
+.stats h2 {
+  font-size: 28px;
+}
+
+}
+
+
+@media (max-width: 480px) {
+
+.about-header h1 {
+  font-size: 26px;
+}
+
+.about-header p {
+  font-size: 14px;
+}
+
+.about-section h2 {
+  font-size: 22px;
+}
+
+.feature-card h3 {
+  font-size: 18px;
+}
+
 }

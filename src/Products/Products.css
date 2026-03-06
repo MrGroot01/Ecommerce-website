@@ -15,9 +15,7 @@
 
 .p_container {
   background: white;
-
   padding: 25px;
-
   border-radius: 15px;
 
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
@@ -27,20 +25,17 @@
   transition: 0.35s;
 
   position: relative;
-
   overflow: hidden;
 }
 
 .p_container:hover {
   transform: translateY(-10px) scale(1.03);
-
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 }
 
 .p_container img {
   height: 160px;
   object-fit: contain;
-
   transition: 0.4s;
 }
 
@@ -50,65 +45,83 @@
 
 .pid {
   position: absolute;
-
   top: 10px;
   left: 10px;
 
   background: #ff4d4d;
-
   color: white;
 
   padding: 4px 10px;
-
   border-radius: 6px;
-
   font-size: 12px;
 }
 
 .title {
   font-size: 16px;
-
   margin: 15px 0;
 
   height: 45px;
-
   overflow: hidden;
 }
 
 .price {
   color: #27ae60;
-
   font-size: 20px;
-
   margin-bottom: 5px;
 }
 
 .rating {
   color: #f39c12;
-
   margin-bottom: 15px;
 }
 
 .cart-btn {
   background: #ff4d4d;
-
   color: white;
 
   border: none;
-
   padding: 10px 18px;
 
   border-radius: 8px;
-
   cursor: pointer;
 
   font-weight: bold;
-
   transition: 0.3s;
 }
 
 .cart-btn:hover {
   background: #e63939;
-
   transform: scale(1.05);
+}
+
+
+
+@media (max-width:768px){
+
+.pro-container{
+  padding:30px 15px;
+  gap:20px;
+}
+
+.p_container{
+  padding:18px;
+}
+
+.p_container img{
+  height:130px;
+}
+
+.title{
+  font-size:14px;
+}
+
+.price{
+  font-size:18px;
+}
+
+.cart-btn{
+  padding:8px 14px;
+  font-size:14px;
+}
+
 }

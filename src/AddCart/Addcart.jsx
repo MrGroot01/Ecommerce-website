@@ -19,49 +19,53 @@ const Addcart = () => {
 
   return (
     <div className="add-container">
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Title</th>
-            <th>Price</th>
-            <th>Qty</th>
-            <th>Image</th>
-            <th>Action</th>
-          </tr>
-        </thead>
 
-        <tbody>
-          {add1.map((i, index) => (
-            <tr key={i.id}>
-              <td>{index + 1}</td>
-              <td>{i.title}</td>
-              <td>${i.price}</td>
-              <td>{i.qyt || 1}</td>
-
-              <td>
-                <img src={i.image} alt={i.title} width="50" />
-              </td>
-
-              <td>
-                <button className="low" onClick={() => decr1(index)}>
-                  -
-                </button>
-
-                <button className="del" onClick={() => delete1(index)}>
-                  delete
-                </button>
-
-                <button className="high" onClick={() => incr1(index)}>
-                  +
-                </button>
-              </td>
+      <div className="table-wrapper">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Title</th>
+              <th>Price</th>
+              <th>Qty</th>
+              <th>Image</th>
+              <th>Action</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+
+          <tbody>
+            {add1.map((i, index) => (
+              <tr key={i.id}>
+                <td>{index + 1}</td>
+                <td>{i.title}</td>
+                <td>${i.price}</td>
+                <td>{i.qyt || 1}</td>
+
+                <td>
+                  <img src={i.image} alt={i.title} className="cart-img" />
+                </td>
+
+                <td>
+                  <button className="low" onClick={() => decr1(index)}>
+                    -
+                  </button>
+
+                  <button className="del" onClick={() => delete1(index)}>
+                    delete
+                  </button>
+
+                  <button className="high" onClick={() => incr1(index)}>
+                    +
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       <h2>Total Price: ${price1.toFixed(0)}</h2>
+
       <button className="clear" onClick={clear1}>
         Clear Cart
       </button>
