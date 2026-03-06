@@ -43,13 +43,11 @@ const App = () => {
   }, []);
 
 
-  /* SAVE CART TO LOCAL STORAGE */
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(datacart));
   }, [datacart]);
 
 
-  /* RECALCULATE TOTAL PRICE */
   useEffect(() => {
     const total = datacart.reduce(
       (sum, item) => sum + item.price * (item.qyt || 1),
