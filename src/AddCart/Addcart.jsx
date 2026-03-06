@@ -19,7 +19,6 @@ const Addcart = () => {
 
   return (
     <div className="add-container">
-
       <div className="table-wrapper">
         <table className="table">
           <thead>

@@ -1,13 +1,8 @@
-/* ---------- PAGE ---------- */
-
 .home {
   padding: 30px;
   font-family: Arial, Helvetica, sans-serif;
   background: #f5f5f5;
 }
-
-
-/* ---------- HERO ---------- */
 
 .hero-banner {
   background: linear-gradient(90deg, #2e7d32, #66bb6a);
@@ -56,9 +51,6 @@
   color: white;
 }
 
-
-/* ---------- CATEGORIES ---------- */
-
 .categories {
   display: flex;
   flex-wrap: wrap;
@@ -84,17 +76,18 @@
   transform: scale(1.05);
 }
 
-.green { background: #26a69a; }
+.green {
+  background: #26a69a;
+}
 
 .yellow {
   background: #fbc02d;
   color: black;
 }
 
-.blue { background: #64b5f6; }
-
-
-/* ---------- FEATURES ---------- */
+.blue {
+  background: #64b5f6;
+}
 
 .features {
   display: flex;
@@ -119,9 +112,6 @@
   font-size: 18px;
 }
 
-
-/* ---------- FOOTER ---------- */
-
 .footer {
   margin-top: 40px;
   padding: 20px;
@@ -134,33 +124,28 @@
   border-radius: 8px;
 }
 
+@media (max-width: 768px) {
+  .home {
+    padding: 15px;
+  }
 
-/* ---------- MOBILE ---------- */
+  .hero-banner {
+    padding: 40px 15px;
+  }
 
-@media (max-width:768px){
+  .hero-text h1 {
+    font-size: 28px;
+  }
 
-.home{
-  padding:15px;
-}
+  .hero-text p {
+    font-size: 16px;
+  }
 
-.hero-banner{
-  padding:40px 15px;
-}
+  .categories {
+    flex-direction: column;
+  }
 
-.hero-text h1{
-  font-size:28px;
-}
-
-.hero-text p{
-  font-size:16px;
-}
-
-.categories{
-  flex-direction:column;
-}
-
-.features{
-  flex-direction:column;
-}
-
+  .features {
+    flex-direction: column;
+  }
 }

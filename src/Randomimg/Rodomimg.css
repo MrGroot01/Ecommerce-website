@@ -1,5 +1,3 @@
-/* ---------- BODY ---------- */
-
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
@@ -9,9 +7,6 @@ body {
   background-position: center;
   background-attachment: fixed;
 }
-
-
-/* ---------- GRID CONTAINER ---------- */
 
 .r-container {
   display: grid;
@@ -23,28 +18,22 @@ body {
   backdrop-filter: blur(3px);
 }
 
-
-/* ---------- CARD ---------- */
-
 .count-container {
-  background: rgba(255,255,255,0.9);
+  background: rgba(255, 255, 255, 0.9);
 
   border-radius: 12px;
   padding: 15px;
 
   text-align: center;
 
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   transition: all 0.35s ease;
 }
 
 .count-container:hover {
   transform: translateY(-10px) scale(1.02);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 }
-
-
-/* ---------- TEXT ---------- */
 
 .count-container span {
   font-size: 14px;
@@ -56,9 +45,6 @@ body {
   margin: 10px 0;
   color: #333;
 }
-
-
-/* ---------- IMAGE ---------- */
 
 .count-container img {
   width: 100%;
@@ -74,9 +60,6 @@ body {
   transform: scale(1.08);
 }
 
-
-/* ---------- BUTTON SECTION ---------- */
-
 .btn {
   display: flex;
   justify-content: center;
@@ -84,9 +67,6 @@ body {
   gap: 20px;
   margin: 30px;
 }
-
-
-/* ---------- BUTTONS ---------- */
 
 .decre,
 .incre {
@@ -122,30 +102,25 @@ body {
   transform: scale(1.08);
 }
 
+@media (max-width: 768px) {
+  .r-container {
+    padding: 20px;
+    gap: 15px;
+  }
 
-/* ---------- MOBILE ---------- */
+  .count-container img {
+    height: 140px;
+  }
 
-@media (max-width:768px){
+  .btn {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
 
-.r-container{
-  padding:20px;
-  gap:15px;
-}
-
-.count-container img{
-  height:140px;
-}
-
-.btn{
-  flex-direction:column;
-  align-items:center;
-  gap:12px;
-}
-
-.decre,
-.incre{
-  padding:10px 18px;
-  font-size:14px;
-}
-
+  .decre,
+  .incre {
+    padding: 10px 18px;
+    font-size: 14px;
+  }
 }

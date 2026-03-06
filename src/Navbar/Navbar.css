@@ -1,5 +1,3 @@
-/* ---------- NAVBAR ---------- */
-
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -12,18 +10,12 @@
   flex-wrap: wrap;
 }
 
-
-/* ---------- LOGO ---------- */
-
 .logo {
   font-size: 24px;
   font-weight: bold;
   text-decoration: none;
   color: white;
 }
-
-
-/* ---------- NAV LINKS ---------- */
 
 .nav-links {
   display: flex;
@@ -43,9 +35,6 @@
 .nav-links a:hover {
   color: #ff4d4d;
 }
-
-
-/* ---------- CART ---------- */
 
 .cart {
   display: flex;
@@ -68,25 +57,20 @@
   font-size: 14px;
 }
 
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+  }
 
-/* ---------- MOBILE ---------- */
+  .nav-links {
+    width: 100%;
+    justify-content: center;
+  }
 
-@media (max-width:768px){
-
-.navbar{
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  text-align: center;
-}
-
-.nav-links{
-  width: 100%;
-  justify-content: center;
-}
-
-.cart{
-  justify-content: center;
-}
-
+  .cart {
+    justify-content: center;
+  }
 }

@@ -40,7 +40,6 @@
   line-height: 1.6;
 }
 
-/* ---------- CONTENT SECTION ---------- */
 .about-section {
   background: #f5f7fb;
   padding: 60px 120px;
@@ -58,7 +57,6 @@
   font-size: 16px;
 }
 
-/* ---------- FEATURES ---------- */
 .about-features {
   background: white;
   padding: 70px 120px;
@@ -89,7 +87,6 @@
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
 }
 
-/* ---------- STATS ---------- */
 .stats {
   background: linear-gradient(90deg, #ff512f, #dd2476);
   color: white;
@@ -104,7 +101,6 @@
   margin-bottom: 5px;
 }
 
-/* ---------- FOOTER ---------- */
 .about-footer {
   background: #111;
   color: white;
@@ -113,9 +109,7 @@
   font-size: 15px;
 }
 
-/* ---------- TABLET ---------- */
-@media (max-width:1024px) {
-
+@media (max-width: 1024px) {
   .about-section {
     padding: 50px 60px;
   }
@@ -123,12 +117,9 @@
   .about-features {
     padding: 50px 60px;
   }
-
 }
 
-/* ---------- MOBILE ---------- */
-@media (max-width:768px) {
-
+@media (max-width: 768px) {
   .about-header {
     padding: 80px 20px;
   }
@@ -160,12 +151,9 @@
   .stats h2 {
     font-size: 28px;
   }
-
 }
 
-/* ---------- SMALL MOBILE ---------- */
-@media (max-width:480px) {
-
+@media (max-width: 480px) {
   .about-header h1 {
     font-size: 26px;
   }
@@ -181,5 +169,4 @@
   .feature-card h3 {
     font-size: 18px;
   }
-
 }
