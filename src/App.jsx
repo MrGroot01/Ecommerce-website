@@ -33,7 +33,7 @@ const App = () => {
 
   /* FETCH PRODUCTS */
   const fetch_data = async () => {
-    const datas = await fetch("https://ecommerceapidata.onrender.com/api/");
+    const datas = await fetch("https://productsapi-ov63.onrender.com/api/");
     const final_data = await datas.json();
     setdata(final_data);
   };

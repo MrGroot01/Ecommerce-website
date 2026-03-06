@@ -14,9 +14,9 @@ const Products = () => {
 
           <h3 className="title">{ele.name}</h3>
 
-          <img src={ele.image} alt={ele.title} />
+          <img src={ele.image}  />
 
-          <h4 className="price">₹ {ele.price.toFixed(0)}</h4>
+          {/* <h4 className="price">₹ {ele.price.toFixed(0)}</h4> */}
           <p>{ele.description}</p>
 
           {/* <p className="rating">⭐ {ele.rating.rate}</p> */}
