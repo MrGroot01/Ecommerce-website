@@ -1,3 +1,5 @@
+/* ---------- PRODUCT GRID ---------- */
+
 .pro-container {
   padding: 60px 40px;
 
@@ -13,15 +15,18 @@
   min-height: 100vh;
 }
 
+
+/* ---------- PRODUCT CARD ---------- */
+
 .p_container {
   background: white;
+
   padding: 25px;
   border-radius: 15px;
 
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-
   text-align: center;
 
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
   transition: 0.35s;
 
   position: relative;
@@ -30,11 +35,16 @@
 
 .p_container:hover {
   transform: translateY(-10px) scale(1.03);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.3);
 }
+
+
+/* ---------- PRODUCT IMAGE ---------- */
 
 .p_container img {
   height: 160px;
+  width: 100%;
+
   object-fit: contain;
   transition: 0.4s;
 }
@@ -42,6 +52,9 @@
 .p_container:hover img {
   transform: scale(1.15);
 }
+
+
+/* ---------- PRODUCT ID ---------- */
 
 .pid {
   position: absolute;
@@ -53,8 +66,12 @@
 
   padding: 4px 10px;
   border-radius: 6px;
+
   font-size: 12px;
 }
+
+
+/* ---------- TITLE ---------- */
 
 .title {
   font-size: 16px;
@@ -64,16 +81,25 @@
   overflow: hidden;
 }
 
+
+/* ---------- PRICE ---------- */
+
 .price {
   color: #27ae60;
   font-size: 20px;
   margin-bottom: 5px;
 }
 
+
+/* ---------- RATING ---------- */
+
 .rating {
   color: #f39c12;
   margin-bottom: 15px;
 }
+
+
+/* ---------- ADD TO CART BUTTON ---------- */
 
 .cart-btn {
   background: #ff4d4d;
@@ -95,6 +121,7 @@
 }
 
 
+/* ---------- MOBILE ---------- */
 
 @media (max-width:768px){
 

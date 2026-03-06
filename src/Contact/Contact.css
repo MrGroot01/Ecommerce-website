@@ -1,3 +1,5 @@
+/* ---------- PAGE ---------- */
+
 .contact-page {
   background-image: url("https://images.unsplash.com/photo-1542838132-92c53300491e");
   background-size: cover;
@@ -5,18 +7,23 @@
 
   min-height: 100vh;
   padding: 40px 20px;
-  font-family: Arial;
+
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 
+/* ---------- TOP SECTION ---------- */
+
 .contact-wrapper {
   display: flex;
-  flex-wrap: wrap;         
+  flex-wrap: wrap;
+
   justify-content: space-between;
   align-items: center;
 
   max-width: 1100px;
   margin: auto;
+
   gap: 30px;
 }
 
@@ -47,9 +54,12 @@
 }
 
 
+/* ---------- FORM ---------- */
+
 .contact-form-section {
   display: flex;
   justify-content: center;
+
   margin-top: 60px;
 }
 
@@ -74,26 +84,44 @@
   padding: 12px;
   border: 1px solid #fa0909;
   border-radius: 6px;
+
+  font-size: 14px;
 }
 
 .contact-form button {
   padding: 12px;
+
   background: #0239f0;
   color: white;
+
   border: none;
   border-radius: 6px;
+
   cursor: pointer;
+
+  font-weight: bold;
+  transition: 0.3s;
 }
 
+.contact-form button:hover {
+  background: #022ec0;
+}
+
+
+/* ---------- STATUS ---------- */
 
 .status-msg {
   text-align: center;
   margin: 20px;
+
   font-weight: bold;
   color: #d82323;
+
   font-size: 18px;
 }
 
+
+/* ---------- FOOTER ---------- */
 
 .contact-footer {
   text-align: center;
@@ -103,6 +131,7 @@
 
 .social-icons {
   margin-bottom: 15px;
+
   display: flex;
   justify-content: center;
   gap: 20px;
@@ -111,6 +140,7 @@
 .social-icons a {
   font-size: 26px;
   color: white;
+
   transition: 0.3s;
 }
 
@@ -118,14 +148,34 @@
   transform: scale(1.2);
 }
 
-.fa-instagram:hover {
-  color: #e1306c;
+.fa-instagram:hover { color: #e1306c; }
+.fa-facebook:hover { color: #1877f2; }
+.fa-twitter:hover { color: #1da1f2; }
+
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width:768px){
+
+.contact-left h1{
+  font-size: 28px;
 }
 
-.fa-facebook:hover {
-  color: #1877f2;
+.contact-wrapper{
+  text-align:center;
 }
 
-.fa-twitter:hover {
-  color: #1da1f2;
+.contact-right{
+  text-align:center;
+}
+
+.contact-form{
+  padding:20px;
+}
+
+.contact-form input,
+.contact-form textarea{
+  font-size:13px;
+}
+
 }

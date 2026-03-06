@@ -1,3 +1,5 @@
+/* ---------- NAVBAR ---------- */
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -7,9 +9,11 @@
   background: #222;
   color: white;
 
-  flex-wrap: wrap;        
+  flex-wrap: wrap;
 }
 
+
+/* ---------- LOGO ---------- */
 
 .logo {
   font-size: 24px;
@@ -19,10 +23,13 @@
 }
 
 
+/* ---------- NAV LINKS ---------- */
+
 .nav-links {
   display: flex;
   gap: 25px;
-  flex-wrap: wrap;        
+
+  flex-wrap: wrap;
   justify-content: center;
 }
 
@@ -30,12 +37,15 @@
   text-decoration: none;
   color: white;
   font-size: 16px;
+  transition: 0.3s;
 }
 
 .nav-links a:hover {
   color: #ff4d4d;
 }
 
+
+/* ---------- CART ---------- */
 
 .cart {
   display: flex;
@@ -51,21 +61,27 @@
 .cart-count {
   background: red;
   color: white;
+
   padding: 4px 8px;
   border-radius: 50%;
+
   font-size: 14px;
 }
 
+
+/* ---------- MOBILE ---------- */
 
 @media (max-width:768px){
 
 .navbar{
   flex-direction: column;
+  align-items: center;
   gap: 10px;
   text-align: center;
 }
 
 .nav-links{
+  width: 100%;
   justify-content: center;
 }
 

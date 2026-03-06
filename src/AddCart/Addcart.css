@@ -1,21 +1,29 @@
+/* ---------- CONTAINER ---------- */
+
 .add-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
 
   border: 1px solid red;
   padding: 20px;
   border-radius: 20px;
+
   background-color: gray;
   gap: 30px;
 }
 
 
+/* ---------- TABLE WRAPPER ---------- */
+
 .table-wrapper{
   width:100%;
-  overflow-x:auto;
+  overflow-x:auto; /* prevents table overflow on mobile */
 }
+
+
+/* ---------- TABLE ---------- */
 
 table{
   width:100%;
@@ -28,6 +36,8 @@ td, th{
 }
 
 
+/* ---------- PRODUCT IMAGE ---------- */
+
 .cart-img{
   width:50px;
   height:50px;
@@ -35,14 +45,19 @@ td, th{
 }
 
 
+/* ---------- CLEAR BUTTON ---------- */
+
 .clear {
   color: white;
   background-color: red;
+
   padding: 8px 18px;
   border: none;
   border-radius: 6px;
+
   cursor: pointer;
   font-weight: bold;
+  transition: 0.3s;
 }
 
 .clear:hover {
@@ -50,15 +65,20 @@ td, th{
 }
 
 
+/* ---------- ACTION BUTTONS ---------- */
+
 .low,
 .high,
 .del {
   padding: 6px 14px;
   margin: 4px;
+
   border: none;
   border-radius: 6px;
+
   font-weight: bold;
   cursor: pointer;
+
   transition: all 0.25s ease;
 }
 
@@ -77,18 +97,12 @@ td, th{
   color: white;
 }
 
-.low:hover {
-  background: #e63946;
-}
+.low:hover { background: #e63946; }
+.del:hover { background: #f39c12; }
+.high:hover { background: #27ae60; }
 
-.del:hover {
-  background: #f39c12;
-}
 
-.high:hover {
-  background: #27ae60;
-}
-
+/* ---------- MOBILE ---------- */
 
 @media (max-width:768px){
 
