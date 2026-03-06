@@ -37,7 +37,7 @@ const Addcart = () => {
               <tr key={i.id}>
                 <td>{index + 1}</td>
                 <td>{i.title}</td>
-                <td>${i.price}</td>
+                <td>₹{i.price}</td>
                 <td>{i.qyt || 1}</td>
 
                 <td>
@@ -63,7 +63,7 @@ const Addcart = () => {
         </table>
       </div>
 
-      <h2>Total Price: ${price1.toFixed(0)}</h2>
+      <h2>Total Price: ₹{price1.toFixed(0)}</h2>
 
       <button className="clear" onClick={clear1}>
         Clear Cart
