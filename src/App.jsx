@@ -17,6 +17,7 @@ export const deleta_datas = createContext();
 export const increment = createContext();
 export const decrement = createContext();
 export const cleardata = createContext();
+export const searchfunc = createContext()
 
 const App = () => {
 
@@ -108,10 +109,19 @@ const App = () => {
     localStorage.removeItem("cart");
   };
 
+  // search function 
+  const [search, setSearch] = useState("");
+  const searfun = (value) =>{
+    // alert("searching this function")
+    setSearch(value)
+  }
+
+
 
   return (
     <div>
-
+      <searchfunc.Provider value={search}>
+        <searchfunc.Provider value={searfun}>
       <cleardata.Provider value={clear}>
         <decrement.Provider value={dec}>
           <increment.Provider value={inc}>
@@ -140,6 +150,8 @@ const App = () => {
           </increment.Provider>
         </decrement.Provider>
       </cleardata.Provider>
+      </searchfunc.Provider>
+      </searchfunc.Provider>
 
     </div>
   );
