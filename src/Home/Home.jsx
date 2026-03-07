@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import "./Home.css";
 import { useContext } from "react";
@@ -30,16 +29,17 @@ const Home = () => {
     item.name.toLowerCase().includes(search.toLowerCase())
   );
 
+  const getLink = (name) => {
+    if (name === "Pet Care") return "/petcare";
+    if (name === "Pharmacy") return "/pharmacy";
+    return "/Products";
+  };
+
   return (
     <section className="home">
 
-      {/* SEARCH RESULTS AT TOP */}
-
       {search && (
         <div className="search-results">
-
-          
-
           <div className="categories">
 
             {filteredCategories.length > 0 ? (
@@ -47,7 +47,7 @@ const Home = () => {
 
                 <Link
                   key={index}
-                  to="/Products"
+                  to={getLink(cat.name)}
                   className={`cat-card ${cat.color}`}
                 >
                   <h3>{cat.name}</h3>
@@ -60,11 +60,8 @@ const Home = () => {
             )}
 
           </div>
-
         </div>
       )}
-
-      {/* HERO BANNER */}
 
       {!search && (
         <>
@@ -78,14 +75,10 @@ const Home = () => {
                 to your doorstep in minutes.
               </p>
 
-              <Link to="/Products" className="shop-btn">
-                Shop Now
-              </Link>
+              <Link to="/Products" className="shop-btn">Shop Now</Link>
 
             </div>
           </div>
-
-          {/* CATEGORY CARDS */}
 
           <div className="categories">
 
@@ -93,7 +86,7 @@ const Home = () => {
 
               <Link
                 key={index}
-                to="/Products"
+                to={getLink(cat.name)}
                 className={`cat-card ${cat.color}`}
               >
 
@@ -105,8 +98,6 @@ const Home = () => {
             ))}
 
           </div>
-
-          {/* FEATURES */}
 
           <div className="features">
 
@@ -128,8 +119,6 @@ const Home = () => {
           </div>
         </>
       )}
-
-      {/* FOOTER */}
 
       <footer className="footer">
         <p>© 2026 My Shopping Website. All Rights Reserved.</p>

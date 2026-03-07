@@ -8,6 +8,9 @@ import Products from "./Products/Products";
 import Contact from "./Contact/Contact";
 import Addcart from "./AddCart/Addcart";
 import Rondomimg from "./Randomimg/Rondomimg";
+import PetCare from "./PetCare/PetCare";
+import Pharmacy from "./Pharmacy/Pharmacy";
+
 
 export const f_data = createContext();
 export const cart_data = createContext();
@@ -144,6 +147,9 @@ const App = () => {
                             <Route path="/Contact" element={<Contact />} />
                             <Route path="/Addcart" element={<Addcart />} />
                             <Route path="/Rondomimg" element={<Rondomimg />} />
+                            <Route path="/PetCare" element={<PetCare/>} />
+                            <Route path="/Pharmacy" element={<Pharmacy/>} />
+                           
                           </Routes>
 
                         </cart_data.Provider>
