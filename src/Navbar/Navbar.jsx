@@ -24,9 +24,12 @@ const Navbar = () => {
       </div>
 
       <div className="search-container">
-
-  <input type="text" placeholder="Search products..." onChange={(e) => sear1(e.target.value)} />
-
+        <input
+          type="text"
+          placeholder="Search products..."
+          onChange={(e) => sear1(e.target.value)}
+        />
+        <i className="fa-solid fa-magnifying-glass"></i>
       </div>
 
       <div className="cart">

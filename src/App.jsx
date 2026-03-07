@@ -17,7 +17,9 @@ export const deleta_datas = createContext();
 export const increment = createContext();
 export const decrement = createContext();
 export const cleardata = createContext();
-export const searchfunc = createContext()
+
+export const searchfunc = createContext();
+export const searchvalue = createContext();
 
 const App = () => {
 
@@ -31,8 +33,15 @@ const App = () => {
 
   const [price, setprice] = useState(0);
 
+  /* SEARCH STATE */
+  const [search, setSearch] = useState("");
+
+  const searfun = (value) => {
+    setSearch(value);
+  };
 
   /* FETCH PRODUCTS */
+
   const fetch_data = async () => {
     const datas = await fetch("https://ecommerceapidata.onrender.com/api/");
     const final_data = await datas.json();
@@ -43,11 +52,13 @@ const App = () => {
     fetch_data();
   }, []);
 
+  /* SAVE CART TO LOCAL STORAGE */
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(datacart));
   }, [datacart]);
 
+  /* TOTAL PRICE CALCULATION */
 
   useEffect(() => {
     const total = datacart.reduce(
@@ -57,8 +68,8 @@ const App = () => {
     setprice(total);
   }, [datacart]);
 
-
   /* ADD TO CART */
+
   const fetch_cart = (item) => {
     const add = [...datacart];
 
@@ -72,24 +83,24 @@ const App = () => {
     }
   };
 
-
   /* DELETE ITEM */
+
   const deletes = (index) => {
     const add = [...datacart];
     add.splice(index, 1);
     setcart(add);
   };
 
-
   /* INCREMENT */
+
   const inc = (index) => {
     const add = [...datacart];
     add[index].qyt += 1;
     setcart(add);
   };
 
-
   /* DECREMENT */
+
   const dec = (index) => {
     const add = [...datacart];
 
@@ -101,57 +112,51 @@ const App = () => {
     }
   };
 
-
   /* CLEAR CART */
+
   const clear = () => {
     setcart([]);
     setprice(0);
     localStorage.removeItem("cart");
   };
 
-  // search function 
-  const [search, setSearch] = useState("");
-  const searfun = (value) =>{
-    // alert("searching this function")
-    setSearch(value)
-  }
-
-
-
   return (
     <div>
-      <searchfunc.Provider value={search}>
+
+      <searchvalue.Provider value={search}>
         <searchfunc.Provider value={searfun}>
-      <cleardata.Provider value={clear}>
-        <decrement.Provider value={dec}>
-          <increment.Provider value={inc}>
-            <deleta_datas.Provider value={deletes}>
-              <price_data.Provider value={price}>
-                <add_cart.Provider value={datacart}>
-                  <f_data.Provider value={data}>
-                    <cart_data.Provider value={fetch_cart}>
 
-                      <Navbar />
+          <cleardata.Provider value={clear}>
+            <decrement.Provider value={dec}>
+              <increment.Provider value={inc}>
+                <deleta_datas.Provider value={deletes}>
+                  <price_data.Provider value={price}>
+                    <add_cart.Provider value={datacart}>
+                      <f_data.Provider value={data}>
+                        <cart_data.Provider value={fetch_cart}>
 
-                      <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/About" element={<About />} />
-                        <Route path="/Products" element={<Products />} />
-                        <Route path="/Contact" element={<Contact />} />
-                        <Route path="/Addcart" element={<Addcart />} />
-                        <Route path="/Rondomimg" element={<Rondomimg />} />
-                      </Routes>
+                          <Navbar />
 
-                    </cart_data.Provider>
-                  </f_data.Provider>
-                </add_cart.Provider>
-              </price_data.Provider>
-            </deleta_datas.Provider>
-          </increment.Provider>
-        </decrement.Provider>
-      </cleardata.Provider>
-      </searchfunc.Provider>
-      </searchfunc.Provider>
+                          <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/About" element={<About />} />
+                            <Route path="/Products" element={<Products />} />
+                            <Route path="/Contact" element={<Contact />} />
+                            <Route path="/Addcart" element={<Addcart />} />
+                            <Route path="/Rondomimg" element={<Rondomimg />} />
+                          </Routes>
+
+                        </cart_data.Provider>
+                      </f_data.Provider>
+                    </add_cart.Provider>
+                  </price_data.Provider>
+                </deleta_datas.Provider>
+              </increment.Provider>
+            </decrement.Provider>
+          </cleardata.Provider>
+
+        </searchfunc.Provider>
+      </searchvalue.Provider>
 
     </div>
   );
