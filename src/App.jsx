@@ -28,7 +28,6 @@ const App = () => {
 
   const [data, setdata] = useState([]);
 
-  /* CART STATE (LOAD FROM LOCAL STORAGE) */
   const [datacart, setcart] = useState(() => {
     const savedCart = localStorage.getItem("cart");
     return savedCart ? JSON.parse(savedCart) : [];
@@ -36,7 +35,6 @@ const App = () => {
 
   const [price, setprice] = useState(0);
 
-  /* SEARCH STATE */
   const [search, setSearch] = useState("");
 
   const searfun = (value) => {

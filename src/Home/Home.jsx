@@ -4,29 +4,28 @@ import { useContext } from "react";
 import { searchvalue } from "../App";
 
 const Home = () => {
-
   const search = useContext(searchvalue);
 
   const categories = [
     {
       name: "Pharmacy",
       desc: "Medicines & health essentials",
-      color: "green"
+      color: "green",
     },
     {
       name: "Pet Care",
       desc: "Food, treats & accessories",
-      color: "yellow"
+      color: "yellow",
     },
     {
       name: "Baby Care",
       desc: "Diapers & baby essentials",
-      color: "blue"
-    }
+      color: "blue",
+    },
   ];
 
   const filteredCategories = categories.filter((item) =>
-    item.name.toLowerCase().includes(search.toLowerCase())
+    item.name.toLowerCase().includes(search.toLowerCase()),
   );
 
   const getLink = (name) => {
@@ -37,14 +36,11 @@ const Home = () => {
 
   return (
     <section className="home">
-
       {search && (
         <div className="search-results">
           <div className="categories">
-
             {filteredCategories.length > 0 ? (
               filteredCategories.map((cat, index) => (
-
                 <Link
                   key={index}
                   to={getLink(cat.name)}
@@ -53,12 +49,10 @@ const Home = () => {
                   <h3>{cat.name}</h3>
                   <p>{cat.desc}</p>
                 </Link>
-
               ))
             ) : (
               <p>No results found</p>
             )}
-
           </div>
         </div>
       )}
@@ -67,7 +61,6 @@ const Home = () => {
         <>
           <div className="hero-banner">
             <div className="hero-text">
-
               <h1>Stock up on daily essentials</h1>
 
               <p>
@@ -75,32 +68,26 @@ const Home = () => {
                 to your doorstep in minutes.
               </p>
 
-              <Link to="/Products" className="shop-btn">Shop Now</Link>
-
+              <Link to="/Products" className="shop-btn">
+                Shop Now
+              </Link>
             </div>
           </div>
 
           <div className="categories">
-
             {categories.map((cat, index) => (
-
               <Link
                 key={index}
                 to={getLink(cat.name)}
                 className={`cat-card ${cat.color}`}
               >
-
                 <h3>{cat.name}</h3>
                 <p>{cat.desc}</p>
-
               </Link>
-
             ))}
-
           </div>
 
           <div className="features">
-
             <div>
               <h4>⚡ Fast Delivery</h4>
               <p>Get your order delivered quickly</p>
@@ -115,7 +102,6 @@ const Home = () => {
               <h4>🔒 Secure</h4>
               <p>Safe and smooth checkout experience</p>
             </div>
-
           </div>
         </>
       )}
@@ -123,7 +109,6 @@ const Home = () => {
       <footer className="footer">
         <p>© 2026 My Shopping Website. All Rights Reserved.</p>
       </footer>
-
     </section>
   );
 };

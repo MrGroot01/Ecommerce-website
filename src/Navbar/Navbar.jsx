@@ -4,13 +4,11 @@ import { Link } from "react-router-dom";
 import { add_cart, searchfunc } from "../App";
 
 const Navbar = () => {
-
   const arr = useContext(add_cart);
   const sear1 = useContext(searchfunc);
 
   return (
     <nav className="navbar">
-
       <Link to="/" className="logo">
         MyShop
       </Link>
@@ -36,7 +34,6 @@ const Navbar = () => {
         <Link to="/Addcart">🛒 Cart</Link>
         <span className="cart-count">{arr.length}</span>
       </div>
-
     </nav>
   );
 };

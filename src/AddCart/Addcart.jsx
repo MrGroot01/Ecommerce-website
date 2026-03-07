@@ -10,7 +10,6 @@ import {
 } from "../App";
 
 const Addcart = () => {
-
   const add1 = useContext(add_cart);
   const price1 = useContext(price_data);
   const delete1 = useContext(deleta_datas);
@@ -20,11 +19,8 @@ const Addcart = () => {
 
   return (
     <div className="add-container">
-
       <div className="table-wrapper">
-
         <table className="table">
-
           <thead>
             <tr>
               <th>Id</th>
@@ -37,11 +33,8 @@ const Addcart = () => {
           </thead>
 
           <tbody>
-
             {add1.map((i, index) => (
-
               <tr key={index}>
-
                 <td>{index + 1}</td>
 
                 {/* Supports both title and name */}
@@ -60,38 +53,22 @@ const Addcart = () => {
                 </td>
 
                 <td>
-
-                  <button
-                    className="low"
-                    onClick={() => decr1(index)}
-                  >
+                  <button className="low" onClick={() => decr1(index)}>
                     -
                   </button>
 
-                  <button
-                    className="del"
-                    onClick={() => delete1(index)}
-                  >
+                  <button className="del" onClick={() => delete1(index)}>
                     delete
                   </button>
 
-                  <button
-                    className="high"
-                    onClick={() => incr1(index)}
-                  >
+                  <button className="high" onClick={() => incr1(index)}>
                     +
                   </button>
-
                 </td>
-
               </tr>
-
             ))}
-
           </tbody>
-
         </table>
-
       </div>
 
       <h2>Total Price: ₹{price1.toFixed(0)}</h2>
@@ -99,7 +76,6 @@ const Addcart = () => {
       <button className="clear" onClick={clear1}>
         Clear Cart
       </button>
-
     </div>
   );
 };

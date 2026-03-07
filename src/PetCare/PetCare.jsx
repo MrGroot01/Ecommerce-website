@@ -3,7 +3,6 @@ import "./PetCare.css";
 import { cart_data, searchvalue } from "../App";
 
 const PetCare = () => {
-
   const [products, setProducts] = useState([]);
   const cart1 = useContext(cart_data);
   const search = useContext(searchvalue);
@@ -19,16 +18,13 @@ const PetCare = () => {
   }, []);
 
   const filteredProducts = products.filter((item) =>
-    item.name.toLowerCase().includes(search.toLowerCase())
+    item.name.toLowerCase().startsWith(search.toLowerCase()),
   );
 
   return (
     <div className="pros-container">
-
       {filteredProducts.map((el) => (
-
         <div className="ps_container" key={el.id}>
-
           <span className="pids">{el.id}</span>
 
           <h3 className="titles">{el.name}</h3>
@@ -48,17 +44,14 @@ const PetCare = () => {
                 ...el,
                 id: "pet-" + el.id,
                 title: el.name,
-                image: el.images
+                image: el.images,
               })
             }
           >
             Add Cart
           </button>
-
         </div>
-
       ))}
-
     </div>
   );
 };

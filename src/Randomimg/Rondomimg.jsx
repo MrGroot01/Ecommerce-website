@@ -3,7 +3,6 @@ import "./Rodomimg.css";
 import { searchvalue } from "../App";
 
 const Rondomimg = () => {
-
   const search = useContext(searchvalue);
 
   const [count, setcount] = useState(1);
@@ -23,7 +22,7 @@ const Rondomimg = () => {
 
   const fetch_cdatd = async () => {
     const c_data = await fetch(
-      `https://picsum.photos/v2/list?page=${count}&limit=10`
+      `https://picsum.photos/v2/list?page=${count}&limit=10`,
     );
 
     const c_final = await c_data.json();
@@ -38,32 +37,24 @@ const Rondomimg = () => {
   /* SEARCH FILTER */
 
   const filteredProducts = c_fetch.filter((item) =>
-    item.author.toLowerCase().includes(search.toLowerCase())
+    item.author.toLowerCase().includes(search.toLowerCase()),
   );
 
   return (
     <div>
-
       <div className="r-container">
-
         {filteredProducts.map((e) => (
-
           <div key={e.id} className="count-container">
-
             <span>{e.id}</span>
 
             <h2>{e.author}</h2>
 
             <img src={e.download_url} alt={e.author} />
-
           </div>
-
         ))}
-
       </div>
 
       <div className="btn">
-
         <button className="decre" onClick={previes}>
           Previous
         </button>
@@ -71,12 +62,9 @@ const Rondomimg = () => {
         <button className="incre" onClick={next}>
           Next Page
         </button>
-
       </div>
-
     </div>
   );
 };
 
 export default Rondomimg;
-
