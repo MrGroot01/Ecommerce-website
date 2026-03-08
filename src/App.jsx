@@ -10,6 +10,7 @@ import Addcart from "./AddCart/Addcart";
 import Rondomimg from "./Randomimg/Rondomimg";
 import PetCare from "./PetCare/PetCare";
 import Pharmacy from "./Pharmacy/Pharmacy";
+import Babycare from "./Babycare/Babycare";
 
 
 export const f_data = createContext();
@@ -147,6 +148,7 @@ const App = () => {
                             <Route path="/Rondomimg" element={<Rondomimg />} />
                             <Route path="/PetCare" element={<PetCare/>} />
                             <Route path="/Pharmacy" element={<Pharmacy/>} />
+                            <Route path="/Babycare" element={<Babycare/>} />
                            
                           </Routes>
 

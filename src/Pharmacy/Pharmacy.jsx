@@ -19,7 +19,7 @@ const Pharmacy = () => {
   }, []);
 
   const filteredProducts = products.filter((item) =>
-    item.name.toLowerCase().startsWith(search.toLowerCase()),
+    item.name.toLowerCase().includes(search.toLowerCase()),
   );
 
   return (
