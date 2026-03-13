@@ -12,6 +12,8 @@ import PetCare from "./PetCare/PetCare";
 import Pharmacy from "./Pharmacy/Pharmacy";
 import Babycare from "./Babycare/Babycare";
 
+import Login from "./Login/Login";
+import Register from "./Register/Register";
 
 export const f_data = createContext();
 export const cart_data = createContext();
@@ -29,13 +31,27 @@ const App = () => {
 
   const [data, setdata] = useState([]);
 
+  const [showLogin, setShowLogin] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
+
+  /* USER LOGIN STATE */
+
+  const [user, setUser] = useState(() => {
+    const savedUser = JSON.parse(localStorage.getItem("user"));
+    const loggedIn = localStorage.getItem("isLoggedIn");
+
+    if (savedUser && loggedIn) {
+      return savedUser;
+    }
+    return null;
+  });
+
   const [datacart, setcart] = useState(() => {
     const savedCart = localStorage.getItem("cart");
     return savedCart ? JSON.parse(savedCart) : [];
   });
 
   const [price, setprice] = useState(0);
-
   const [search, setSearch] = useState("");
 
   const searfun = (value) => {
@@ -54,13 +70,13 @@ const App = () => {
     fetch_data();
   }, []);
 
-  /* SAVE CART TO LOCAL STORAGE */
+  /* SAVE CART */
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(datacart));
   }, [datacart]);
 
-  /* TOTAL PRICE CALCULATION */
+  /* TOTAL PRICE */
 
   useEffect(() => {
     const total = datacart.reduce(
@@ -73,8 +89,16 @@ const App = () => {
   /* ADD TO CART */
 
   const fetch_cart = (item) => {
-    const add = [...datacart];
 
+    const loggedIn = localStorage.getItem("isLoggedIn");
+
+    if (!loggedIn) {
+      alert("Please login to add items to cart");
+      setShowLogin(true);
+      return;
+    }
+
+    const add = [...datacart];
     const exists = add.some((i) => i.id === item.id);
 
     if (exists) {
@@ -85,7 +109,7 @@ const App = () => {
     }
   };
 
-  /* DELETE ITEM */
+  /* DELETE */
 
   const deletes = (index) => {
     const add = [...datacart];
@@ -137,7 +161,29 @@ const App = () => {
                       <f_data.Provider value={data}>
                         <cart_data.Provider value={fetch_cart}>
 
-                          <Navbar />
+                          {/* NAVBAR */}
+                          <Navbar
+                            setShowLogin={setShowLogin}
+                            user={user}
+                            setUser={setUser}
+                          />
+
+                          {/* LOGIN POPUP */}
+                          {showLogin && (
+                            <Login
+                              setShowLogin={setShowLogin}
+                              setShowRegister={setShowRegister}
+                              setUser={setUser}
+                            />
+                          )}
+
+                          {/* REGISTER POPUP */}
+                          {showRegister && (
+                            <Register
+                              setShowRegister={setShowRegister}
+                              setShowLogin={setShowLogin}
+                            />
+                          )}
 
                           <Routes>
                             <Route path="/" element={<Home />} />
@@ -146,10 +192,9 @@ const App = () => {
                             <Route path="/Contact" element={<Contact />} />
                             <Route path="/Addcart" element={<Addcart />} />
                             <Route path="/Rondomimg" element={<Rondomimg />} />
-                            <Route path="/PetCare" element={<PetCare/>} />
-                            <Route path="/Pharmacy" element={<Pharmacy/>} />
-                            <Route path="/Babycare" element={<Babycare/>} />
-                           
+                            <Route path="/PetCare" element={<PetCare />} />
+                            <Route path="/Pharmacy" element={<Pharmacy />} />
+                            <Route path="/Babycare" element={<Babycare />} />
                           </Routes>
 
                         </cart_data.Provider>
