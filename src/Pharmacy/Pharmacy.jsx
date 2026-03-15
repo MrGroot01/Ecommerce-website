@@ -38,7 +38,7 @@ const Pharmacy = () => {
 
       <div className="category-menu">
 
-        <button onClick={() => navigate("/")}>All</button>
+        <button onClick={() => navigate("/Products")}>All</button>
 
         <button onClick={() => navigate("/vegetables")}>
           Vegetables
