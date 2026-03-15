@@ -123,3 +123,32 @@
 .ph-btn:hover {
   background: #238636;
 }
+.pharmacy-page{
+width:90%;
+margin:auto;
+margin-top:40px;
+}
+
+/* CATEGORY BAR */
+
+.category-menu{
+display:flex;
+gap:15px;
+margin-bottom:20px;
+}
+
+.category-menu button{
+background:#f5f5f5;
+border:none;
+padding:10px 18px;
+border-radius:12px;
+font-size:15px;
+cursor:pointer;
+box-shadow:0 2px 5px rgba(0,0,0,0.1);
+transition:0.2s;
+}
+
+.category-menu button:hover{
+background:white;
+box-shadow:0 4px 10px rgba(0,0,0,0.15);
+}

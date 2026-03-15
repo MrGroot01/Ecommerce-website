@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import "./Login.css";
 
 const Login = ({ setShowLogin, setShowRegister, setUser }) => {
+
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     if (!phone || !password) {
@@ -13,99 +15,98 @@ const Login = ({ setShowLogin, setShowRegister, setUser }) => {
       return;
     }
 
-    const savedUser = JSON.parse(localStorage.getItem("user"));
+    try {
 
-    if (!savedUser) {
-      alert("Please register first");
-      return;
-    }
+      const response = await fetch("http://127.0.0.1:8000/api/login/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          phone,
+          password
+        })
+      });
 
-    if (phone === savedUser.phone && password === savedUser.password) {
-      // store login status
-      localStorage.setItem("isLoggedIn", true);
+      const data = await response.json();
 
-      const savedUser = JSON.parse(localStorage.getItem("user"));
-      setUser(savedUser);
+      if (data.message === "Login Successful") {
 
-      alert("Login Successful");
+        setUser(data);
+        alert("Login Successful");
+        setShowLogin(false);
 
-      setShowLogin(false);
-    } else {
-      alert("Invalid phone or password");
+      } else if (data.message.includes("register")) {
+
+        alert("Phone number not registered. Please register first.");
+
+        setShowLogin(false);
+        setShowRegister(true);
+
+      } else {
+
+        alert(data.message);
+
+      }
+
+    } catch (error) {
+
+      console.error(error);
+      alert("Server error");
+
     }
   };
 
   return (
     <div className="login-overlay">
       <div className="login-modal">
-        {/* CLOSE BUTTON */}
-        <span className="close-btn" onClick={() => setShowLogin(false)}>
-          ✕
-        </span>
+
+        <span className="close-btn" onClick={() => setShowLogin(false)}>✕</span>
 
         <h2>Login</h2>
 
         <form onSubmit={handleLogin}>
+
           <input
             type="text"
-            placeholder="Phone number"
+            placeholder="Phone Number"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <div className="password-box">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
 
-          <button type="submit" className="login-btn-main">
-            Login
-          </button>
+            <span
+              className="toggle-pass"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+               <i
+              className={`fa-solid ${showPassword ? "fa-eye-slash" : "fa-eye"} toggle-pass`}
+              onClick={() => setShowPassword(!showPassword)}
+            ></i>
+            </span>
+          </div>
+
+          <button type="submit">Login</button>
+
         </form>
-
-        {/* OR DIVIDER */}
-
-        <div className="divider">
-          <span>OR</span>
-        </div>
-
-        {/* SOCIAL LOGIN */}
-
-        <div className="social-login">
-          <a
-            href="https://accounts.google.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="social-btn google"
-          >
-            <i className="fa-brands fa-google"></i>
-          </a>
-
-          <a
-            href="https://www.facebook.com/login"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="social-btn facebook"
-          >
-            <i className="fa-brands fa-facebook-f"></i>
-          </a>
-        </div>
-
-        {/* REGISTER LINK */}
 
         <p className="register-text">
           Don't have an account?
-          <span
-            onClick={() => {
-              setShowLogin(false);
-              setShowRegister(true);
-            }}
-          >
+          <span onClick={() => {
+            setShowLogin(false);
+            setShowRegister(true);
+          }}>
             Register
           </span>
         </p>
+
       </div>
     </div>
   );

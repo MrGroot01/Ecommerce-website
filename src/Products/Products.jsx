@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./Products.css";
 import { cart_data, f_data, searchvalue } from "../App";
+import { useNavigate } from "react-router-dom";
 
 const Products = () => {
 
@@ -8,7 +9,10 @@ const Products = () => {
   const cart1 = useContext(cart_data);
   const search = useContext(searchvalue);
 
+  const navigate = useNavigate();
+
   const [extraProducts, setExtraProducts] = useState([]);
+  const [category, setCategory] = useState("all");
 
   const fetchExtraProducts = async () => {
 
@@ -40,51 +44,114 @@ const Products = () => {
   }, []);
 
   /* MERGE ALL PRODUCTS */
+
   const allProducts = [...data1, ...extraProducts];
 
   /* SEARCH FILTER */
-  const filteredProducts = allProducts.filter(item =>
+
+  const searchedProducts = allProducts.filter(item =>
     item.name?.toLowerCase().includes((search || "").toLowerCase())
   );
 
+  /* CATEGORY FILTER */
+
+  const filteredProducts =
+    category === "all"
+      ? searchedProducts
+      : searchedProducts.filter(p => p.category === category);
+
   return (
-    <div className="pro-container">
 
-      {filteredProducts.map((ele, index) => (
+    <div className="products-page">
 
-        <div className="p_container" key={index}>
+      {/* CATEGORY MENU */}
 
-          <span className="pid">{index + 1}</span>
+     <div className="category-menu">
 
-          <h3 className="title">{ele.name}</h3>
+  <button onClick={() => setCategory("all")}>
+    All
+  </button>
 
-          {/* Support both image fields */}
-          <img src={ele.image || ele.images} alt={ele.name} />
+  <button onClick={() => navigate("/vegetables")}>
+    Vegetables
+  </button>
 
-          <h4 className="price">₹ {Number(ele.price).toFixed(0)}</h4>
+  <button onClick={() => navigate("/fruits")}>
+    Fruits
+  </button>
 
-          <p>{ele.description}</p>
+  <button onClick={() => navigate("/pharmacy")}>
+    Pharmacy
+  </button>
 
-          <button
-            className="cart-btn"
-            onClick={() =>
-              cart1({
-                ...ele,
-                id: "prod-" + index,
-                title: ele.name,
-                image: ele.image || ele.images
-              })
-            }
-          >
-            Add Cart
-          </button>
+  <button onClick={() => navigate("/petcare")}>
+    Pet Care
+  </button>
 
-        </div>
+  <button onClick={() => navigate("/babycare")}>
+    Baby Care
+  </button>
 
-      ))}
+</div>
+
+
+      {/* PRODUCT GRID */}
+
+      <div className="pro-container">
+
+        {filteredProducts.map((ele, index) => (
+
+          <div className="p_container" key={index}>
+
+            <span className="pid">{index + 1}</span>
+
+            <h3
+              className="title"
+              onClick={() =>
+                navigate("/product-details", { state: ele })
+              }
+            >
+              {ele.name}
+            </h3>
+
+            <img
+              src={ele.image || ele.images}
+              alt={ele.name}
+              onClick={() =>
+                navigate("/product-details", { state: ele })
+              }
+            />
+
+            <h4 className="price">
+              ₹ {Number(ele.price).toFixed(0)}
+            </h4>
+
+            <p>{ele.description}</p>
+
+            <button
+              className="cart-btn"
+              onClick={() =>
+                cart1({
+                  ...ele,
+                  id: "prod-" + index,
+                  title: ele.name,
+                  image: ele.image || ele.images
+                })
+              }
+            >
+              Add Cart
+            </button>
+
+          </div>
+
+        ))}
+
+      </div>
 
     </div>
+
   );
+
 };
 
 export default Products;

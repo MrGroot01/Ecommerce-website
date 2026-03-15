@@ -1,0 +1,90 @@
+/* Main container */
+
+.product-details{
+display:flex;
+gap:60px;
+padding:50px;
+align-items:flex-start;
+background:#f8f8f8;
+min-height:100vh;
+}
+
+
+/* Left side (image section) */
+
+.details-left{
+flex:1;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.details-left img{
+width:420px;
+border-radius:12px;
+box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
+
+
+/* Right side (product info) */
+
+.details-right{
+flex:1;
+max-width:500px;
+}
+
+.details-right h2{
+font-size:28px;
+margin-bottom:10px;
+color:#222;
+}
+
+.details-right h3{
+font-size:22px;
+color:#28a745;
+margin-bottom:15px;
+}
+
+.details-right p{
+font-size:15px;
+color:#555;
+line-height:1.6;
+margin-bottom:25px;
+}
+
+
+/* Buy button */
+
+.buy-btn{
+background:#28a745;
+color:white;
+border:none;
+padding:14px 30px;
+font-size:16px;
+border-radius:8px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.buy-btn:hover{
+background:#218838;
+transform:translateY(-2px);
+}
+
+
+/* Optional add cart button */
+
+.cart-btn{
+background:#ff4d4d;
+color:white;
+border:none;
+padding:14px 30px;
+font-size:16px;
+border-radius:8px;
+cursor:pointer;
+margin-right:15px;
+}
+
+.cart-btn:hover{
+background:#e63939;
+}

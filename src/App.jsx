@@ -14,6 +14,8 @@ import Babycare from "./Babycare/Babycare";
 
 import Login from "./Login/Login";
 import Register from "./Register/Register";
+import BuyNow from "./BuyNow/Buynow";
+import ProductDetails from "./ProductDetails/ProductDetails";
 
 export const f_data = createContext();
 export const cart_data = createContext();
@@ -195,6 +197,8 @@ const App = () => {
                             <Route path="/PetCare" element={<PetCare />} />
                             <Route path="/Pharmacy" element={<Pharmacy />} />
                             <Route path="/Babycare" element={<Babycare />} />
+                            <Route path="/buy" element={<BuyNow/>} />
+                            <Route path="/product-details" element={<ProductDetails/>} />
                           </Routes>
 
                         </cart_data.Provider>
