@@ -16,6 +16,8 @@ import Login from "./Login/Login";
 import Register from "./Register/Register";
 import BuyNow from "./BuyNow/Buynow";
 import ProductDetails from "./ProductDetails/ProductDetails";
+import ProfileSidebar from "./ProfileSidebar/ProfileSidebar";
+import ProfilePage from "./ProfilePage/ProfilePage";
 
 export const f_data = createContext();
 export const cart_data = createContext();
@@ -199,6 +201,8 @@ const App = () => {
                             <Route path="/Babycare" element={<Babycare />} />
                             <Route path="/buy" element={<BuyNow/>} />
                             <Route path="/product-details" element={<ProductDetails/>} />
+                            <Route path="/ProfileSidebar" element={<ProfileSidebar/>} />
+                            <Route path="/profile" element={<ProfilePage/>} />
                           </Routes>
 
                         </cart_data.Provider>
