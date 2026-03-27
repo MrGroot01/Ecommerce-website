@@ -18,6 +18,7 @@ import BuyNow from "./BuyNow/Buynow";
 import ProductDetails from "./ProductDetails/ProductDetails";
 import ProfileSidebar from "./ProfileSidebar/ProfileSidebar";
 import ProfilePage from "./ProfilePage/ProfilePage";
+import Chatbot from "./Chatbot/Chatbot";
 
 /* CONTEXTS */
 
@@ -200,7 +201,7 @@ const App = () => {
                             <Route path="/ProfileSidebar" element={<ProfileSidebar />} />
                             <Route path="/profile" element={<ProfilePage />} />
                           </Routes>
-
+                          <Chatbot/>
                         </cart_data.Provider>
                       </f_data.Provider>
                     </add_cart.Provider>

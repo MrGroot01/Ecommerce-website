@@ -112,6 +112,7 @@ const Home = () => {
         <>
           <Slider {...settings} className="hero-slider">
             <div className="hero-slide">
+              <Link to="/Products">
               <img
                 src="https://i0.wp.com/dailyneeds247.com/wp-content/uploads/2025/12/DN247.jpeg?fit=1200%2C400&ssl=1"
                 className="bg-img"
@@ -125,9 +126,12 @@ const Home = () => {
                   Shop Now
                 </Link>
               </div>
+              </Link>
             </div>
 
             <div className="hero-slide">
+              <Link to="/PetCare">
+
               <img
                 src="https://thumbs.dreamstime.com/z/flat-lay-composition-food-snacks-toys-accessories-dog-cat-bright-background-pet-care-shopping-sale-concept-top-405066714.jpg"
                 className="bg-img"
@@ -141,9 +145,12 @@ const Home = () => {
                   Explore
                 </Link>
               </div>
+              </Link>
             </div>
 
             <div className="hero-slide">
+              <Link to="/Babycare">
+
               <img
                 src="https://cittaworld.com/cdn/shop/articles/10_Essential_Baby_Items_Every_New_Parent_Needs-5198001_cd1fa34b-77af-40fe-816e-2821b5484117.jpg?v=1772190034"
                 className="bg-img"
@@ -157,6 +164,7 @@ const Home = () => {
                   Shop Now
                 </Link>
               </div>
+              </Link>
             </div>
           </Slider>
 
