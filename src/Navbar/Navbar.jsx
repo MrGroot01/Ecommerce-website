@@ -10,13 +10,10 @@ const Navbar = ({ setShowLogin, user, setUser }) => {
   const totalPrice = useContext(price_data);
   const searchProduct = useContext(searchfunc);
 
-  // ✅ Sidebar state (instead of dropdown)
   const [showSidebar, setShowSidebar] = useState(false);
 
   const handleLoginClick = () => {
-    const loggedIn = localStorage.getItem("isLoggedIn");
-
-    if (loggedIn) {
+    if (user) {
       alert("You are already logged in");
     } else {
       setShowLogin(true);
@@ -27,9 +24,7 @@ const Navbar = ({ setShowLogin, user, setUser }) => {
     <>
       <nav className="navbar">
 
-        <Link to="/" className="logo">
-          MyShop
-        </Link>
+        <Link to="/" className="logo">MyShop</Link>
 
         <div className="nav-links">
           <Link to="/">Home</Link>
@@ -59,7 +54,7 @@ const Navbar = ({ setShowLogin, user, setUser }) => {
               onClick={() => setShowSidebar(true)}
             >
               <i className="fa-solid fa-user"></i>
-              <span>Hello {user.name}</span>
+              <span>Hello {user?.name || "User"}</span>
             </div>
 
           ) : (
@@ -86,7 +81,7 @@ const Navbar = ({ setShowLogin, user, setUser }) => {
 
       </nav>
 
-      {/* ✅ SIDEBAR COMPONENT */}
+      {/* SIDEBAR */}
       <ProfileSidebar
         show={showSidebar}
         setShow={setShowSidebar}

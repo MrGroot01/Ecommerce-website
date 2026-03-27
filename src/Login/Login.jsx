@@ -16,32 +16,25 @@ const Login = ({ setShowLogin, setShowRegister, setUser }) => {
     }
 
     try {
-
       const response = await fetch("http://127.0.0.1:8000/api/login/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-          phone,
-          password
-        })
+        body: JSON.stringify({ phone, password })
       });
 
       const data = await response.json();
 
       if (data.message === "Login Successful") {
 
-        // ✅ CREATE CLEAN USER OBJECT
+        // ✅ Dynamic user
         const userData = {
           phone: phone,
-          name: "kiran" // or data.name if backend gives
+          name: data.name || phone   // 🔥 FIX
         };
 
-        // ✅ SAVE LOGIN (VERY IMPORTANT)
         localStorage.setItem("user", JSON.stringify(userData));
-
-        // ✅ UPDATE REACT STATE
         setUser(userData);
 
         alert("Login Successful ✅");
@@ -50,21 +43,16 @@ const Login = ({ setShowLogin, setShowRegister, setUser }) => {
       } else if (data.message.includes("register")) {
 
         alert("Phone number not registered. Please register first.");
-
         setShowLogin(false);
         setShowRegister(true);
 
       } else {
-
         alert(data.message);
-
       }
 
     } catch (error) {
-
       console.error(error);
       alert("Server error");
-
     }
   };
 
@@ -93,9 +81,10 @@ const Login = ({ setShowLogin, setShowRegister, setUser }) => {
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            <span onClick={() => setShowPassword(!showPassword)}>
-              {showPassword ? "🙈" : "👁"}
-            </span>
+            <i
+              className={`fa-solid ${showPassword ? "fa-eye-slash" : "fa-eye"} toggle-pass`}
+              onClick={() => setShowPassword(!showPassword)}
+            ></i>
           </div>
 
           <button type="submit">Login</button>

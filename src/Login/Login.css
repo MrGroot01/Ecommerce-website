@@ -89,18 +89,37 @@ box-shadow:0 0 6px rgba(123,44,191,0.25);
 
 /* Password field */
 
-.password-box{
-position:relative;
+.password-box {
+  position: relative;
+  width: 100%;
 }
 
-.toggle-pass{
-position:absolute;
-right:12px;
-top:50%;
-transform:translateY(-50%);
-font-size:13px;
-color:#007bff;
-cursor:pointer;
+.password-box input {
+  width: 100%;
+  padding: 14px;
+  padding-right: 45px; /* space for icon */
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+/* ICON PERFECT CENTER */
+
+.toggle-pass {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888;
+  font-size: 16px;
+  transition: 0.2s;
+}
+
+/* HOVER EFFECT */
+
+.toggle-pass:hover {
+  color: #7b2cbf;
 }
 
 

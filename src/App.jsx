@@ -40,11 +40,10 @@ const App = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
 
-  /* ✅ USER STATE */
-
+  /* ✅ USER STATE (ONLY THIS IS NEEDED) */
   const [user, setUser] = useState(null);
 
-  // 🔥 IMPORTANT: sync user from localStorage
+  // 🔥 Sync user from localStorage on load
   useEffect(() => {
     const savedUser = JSON.parse(localStorage.getItem("user"));
     if (savedUser) {
@@ -92,10 +91,8 @@ const App = () => {
 
   const fetch_cart = (item) => {
 
-    // 🔥 DOUBLE CHECK (important)
-    const currentUser = user || JSON.parse(localStorage.getItem("user"));
-
-    if (!currentUser) {
+    // 🔥 CHECK USER (NOT localStorage flag)
+    if (!user) {
       alert("Please login to add items to cart");
       setShowLogin(true);
       return;
@@ -120,7 +117,7 @@ const App = () => {
     setcart(add);
   };
 
-  /* INC */
+  /* INCREMENT */
 
   const inc = (index) => {
     const add = [...datacart];
@@ -128,7 +125,7 @@ const App = () => {
     setcart(add);
   };
 
-  /* DEC */
+  /* DECREMENT */
 
   const dec = (index) => {
     const add = [...datacart];
@@ -141,7 +138,7 @@ const App = () => {
     }
   };
 
-  /* CLEAR */
+  /* CLEAR CART */
 
   const clear = () => {
     setcart([]);
@@ -163,12 +160,14 @@ const App = () => {
                       <f_data.Provider value={data}>
                         <cart_data.Provider value={fetch_cart}>
 
+                          {/* NAVBAR */}
                           <Navbar
                             setShowLogin={setShowLogin}
                             user={user}
                             setUser={setUser}
                           />
 
+                          {/* LOGIN */}
                           {showLogin && (
                             <Login
                               setShowLogin={setShowLogin}
@@ -177,6 +176,7 @@ const App = () => {
                             />
                           )}
 
+                          {/* REGISTER */}
                           {showRegister && (
                             <Register
                               setShowRegister={setShowRegister}
@@ -184,10 +184,21 @@ const App = () => {
                             />
                           )}
 
+                          {/* ROUTES */}
                           <Routes>
                             <Route path="/" element={<Home />} />
+                            <Route path="/About" element={<About />} />
                             <Route path="/Products" element={<Products />} />
+                            <Route path="/Contact" element={<Contact />} />
                             <Route path="/Addcart" element={<Addcart />} />
+                            <Route path="/Rondomimg" element={<Rondomimg />} />
+                            <Route path="/PetCare" element={<PetCare />} />
+                            <Route path="/Pharmacy" element={<Pharmacy />} />
+                            <Route path="/Babycare" element={<Babycare />} />
+                            <Route path="/buy" element={<BuyNow />} />
+                            <Route path="/product-details" element={<ProductDetails />} />
+                            <Route path="/ProfileSidebar" element={<ProfileSidebar />} />
+                            <Route path="/profile" element={<ProfilePage />} />
                           </Routes>
 
                         </cart_data.Provider>
