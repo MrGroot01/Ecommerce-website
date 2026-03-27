@@ -19,6 +19,8 @@ import ProductDetails from "./ProductDetails/ProductDetails";
 import ProfileSidebar from "./ProfileSidebar/ProfileSidebar";
 import ProfilePage from "./ProfilePage/ProfilePage";
 
+/* CONTEXTS */
+
 export const f_data = createContext();
 export const cart_data = createContext();
 export const add_cart = createContext();
@@ -38,17 +40,19 @@ const App = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
 
-  /* USER LOGIN STATE */
+  /* ✅ USER STATE */
 
-  const [user, setUser] = useState(() => {
+  const [user, setUser] = useState(null);
+
+  // 🔥 IMPORTANT: sync user from localStorage
+  useEffect(() => {
     const savedUser = JSON.parse(localStorage.getItem("user"));
-    const loggedIn = localStorage.getItem("isLoggedIn");
-
-    if (savedUser && loggedIn) {
-      return savedUser;
+    if (savedUser) {
+      setUser(savedUser);
     }
-    return null;
-  });
+  }, []);
+
+  /* CART */
 
   const [datacart, setcart] = useState(() => {
     const savedCart = localStorage.getItem("cart");
@@ -58,20 +62,14 @@ const App = () => {
   const [price, setprice] = useState(0);
   const [search, setSearch] = useState("");
 
-  const searfun = (value) => {
-    setSearch(value);
-  };
+  const searfun = (value) => setSearch(value);
 
   /* FETCH PRODUCTS */
 
-  const fetch_data = async () => {
-    const datas = await fetch("https://ecommerceapidata.onrender.com/api/");
-    const final_data = await datas.json();
-    setdata(final_data);
-  };
-
   useEffect(() => {
-    fetch_data();
+    fetch("https://ecommerceapidata.onrender.com/api/")
+      .then(res => res.json())
+      .then(data => setdata(data));
   }, []);
 
   /* SAVE CART */
@@ -90,13 +88,14 @@ const App = () => {
     setprice(total);
   }, [datacart]);
 
-  /* ADD TO CART */
+  /* ✅ ADD TO CART (FINAL FIX) */
 
   const fetch_cart = (item) => {
 
-    const loggedIn = localStorage.getItem("isLoggedIn");
+    // 🔥 DOUBLE CHECK (important)
+    const currentUser = user || JSON.parse(localStorage.getItem("user"));
 
-    if (!loggedIn) {
+    if (!currentUser) {
       alert("Please login to add items to cart");
       setShowLogin(true);
       return;
@@ -121,7 +120,7 @@ const App = () => {
     setcart(add);
   };
 
-  /* INCREMENT */
+  /* INC */
 
   const inc = (index) => {
     const add = [...datacart];
@@ -129,7 +128,7 @@ const App = () => {
     setcart(add);
   };
 
-  /* DECREMENT */
+  /* DEC */
 
   const dec = (index) => {
     const add = [...datacart];
@@ -138,11 +137,11 @@ const App = () => {
       add[index].qyt -= 1;
       setcart(add);
     } else {
-      alert("Quantity is 1. Use delete button");
+      alert("Quantity is 1");
     }
   };
 
-  /* CLEAR CART */
+  /* CLEAR */
 
   const clear = () => {
     setcart([]);
@@ -155,7 +154,6 @@ const App = () => {
 
       <searchvalue.Provider value={search}>
         <searchfunc.Provider value={searfun}>
-
           <cleardata.Provider value={clear}>
             <decrement.Provider value={dec}>
               <increment.Provider value={inc}>
@@ -165,14 +163,12 @@ const App = () => {
                       <f_data.Provider value={data}>
                         <cart_data.Provider value={fetch_cart}>
 
-                          {/* NAVBAR */}
                           <Navbar
                             setShowLogin={setShowLogin}
                             user={user}
                             setUser={setUser}
                           />
 
-                          {/* LOGIN POPUP */}
                           {showLogin && (
                             <Login
                               setShowLogin={setShowLogin}
@@ -181,7 +177,6 @@ const App = () => {
                             />
                           )}
 
-                          {/* REGISTER POPUP */}
                           {showRegister && (
                             <Register
                               setShowRegister={setShowRegister}
@@ -191,18 +186,8 @@ const App = () => {
 
                           <Routes>
                             <Route path="/" element={<Home />} />
-                            <Route path="/About" element={<About />} />
                             <Route path="/Products" element={<Products />} />
-                            <Route path="/Contact" element={<Contact />} />
                             <Route path="/Addcart" element={<Addcart />} />
-                            <Route path="/Rondomimg" element={<Rondomimg />} />
-                            <Route path="/PetCare" element={<PetCare />} />
-                            <Route path="/Pharmacy" element={<Pharmacy />} />
-                            <Route path="/Babycare" element={<Babycare />} />
-                            <Route path="/buy" element={<BuyNow/>} />
-                            <Route path="/product-details" element={<ProductDetails/>} />
-                            <Route path="/ProfileSidebar" element={<ProfileSidebar/>} />
-                            <Route path="/profile" element={<ProfilePage/>} />
                           </Routes>
 
                         </cart_data.Provider>
@@ -213,7 +198,6 @@ const App = () => {
               </increment.Provider>
             </decrement.Provider>
           </cleardata.Provider>
-
         </searchfunc.Provider>
       </searchvalue.Provider>
 

@@ -32,8 +32,19 @@ const Login = ({ setShowLogin, setShowRegister, setUser }) => {
 
       if (data.message === "Login Successful") {
 
-        setUser(data);
-        alert("Login Successful");
+        // ✅ CREATE CLEAN USER OBJECT
+        const userData = {
+          phone: phone,
+          name: "kiran" // or data.name if backend gives
+        };
+
+        // ✅ SAVE LOGIN (VERY IMPORTANT)
+        localStorage.setItem("user", JSON.stringify(userData));
+
+        // ✅ UPDATE REACT STATE
+        setUser(userData);
+
+        alert("Login Successful ✅");
         setShowLogin(false);
 
       } else if (data.message.includes("register")) {
@@ -82,14 +93,8 @@ const Login = ({ setShowLogin, setShowRegister, setUser }) => {
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            <span
-              className="toggle-pass"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-               <i
-              className={`fa-solid ${showPassword ? "fa-eye-slash" : "fa-eye"} toggle-pass`}
-              onClick={() => setShowPassword(!showPassword)}
-            ></i>
+            <span onClick={() => setShowPassword(!showPassword)}>
+              {showPassword ? "🙈" : "👁"}
             </span>
           </div>
 
