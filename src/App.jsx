@@ -19,6 +19,7 @@ import ProductDetails from "./ProductDetails/ProductDetails";
 import ProfileSidebar from "./ProfileSidebar/ProfileSidebar";
 import ProfilePage from "./ProfilePage/ProfilePage";
 import Chatbot from "./Chatbot/Chatbot";
+import Checkout from "./Checkout/Checkout";
 
 /* CONTEXTS */
 
@@ -33,9 +34,10 @@ export const cleardata = createContext();
 
 export const searchfunc = createContext();
 export const searchvalue = createContext();
+export const user_data = createContext();
+export const login_control = createContext();
 
 const App = () => {
-
   const [data, setdata] = useState([]);
 
   const [showLogin, setShowLogin] = useState(false);
@@ -68,8 +70,8 @@ const App = () => {
 
   useEffect(() => {
     fetch("https://ecommerceapidata.onrender.com/api/")
-      .then(res => res.json())
-      .then(data => setdata(data));
+      .then((res) => res.json())
+      .then((data) => setdata(data));
   }, []);
 
   /* SAVE CART */
@@ -83,32 +85,66 @@ const App = () => {
   useEffect(() => {
     const total = datacart.reduce(
       (sum, item) => sum + item.price * (item.qyt || 1),
-      0
+      0,
     );
     setprice(total);
   }, [datacart]);
 
   /* ✅ ADD TO CART (FINAL FIX) */
 
-  const fetch_cart = (item) => {
+  // 🔥 AUTO CATEGORY DETECT
+  // 🔥 UNIQUE ID (FINAL FIX)
+const getUniqueId = (item) => {
+  return (item.id || item._id || item.name)
+    .toString()
+    .trim()
+    .toLowerCase();
+};
 
-    // 🔥 CHECK USER (NOT localStorage flag)
-    if (!user) {
-      alert("Please login to add items to cart");
-      setShowLogin(true);
-      return;
-    }
+// 🔥 AUTO CATEGORY
+const detectCategory = (item) => {
+  const name = (item.name || item.title || "").toLowerCase();
 
-    const add = [...datacart];
-    const exists = add.some((i) => i.id === item.id);
+  if (name.includes("pampers") || name.includes("huggies")) return "baby";
+  if (name.includes("dog") || name.includes("cat")) return "pet";
+  if (name.includes("tablet") || name.includes("medicine")) return "pharmacy";
 
-    if (exists) {
-      alert("Product already added to cart");
-    } else {
-      add.push({ ...item, qyt: 1 });
-      setcart(add);
-    }
-  };
+  return "ecommerce";
+};
+
+// ✅ FINAL ADD TO CART (FIXED)
+const fetch_cart = (item) => {
+
+  if (!user) {
+    alert("Please login to add items to cart");
+    setShowLogin(true);
+    return;
+  }
+
+  const updatedCart = [...datacart];
+
+  const itemId = getUniqueId(item);
+
+  const exists = updatedCart.some(
+    (i) => getUniqueId(i) === itemId
+  );
+
+  if (exists) {
+    // ❌ STOP DUPLICATE
+    alert("Already in cart");
+    return;
+  }
+
+  // ✅ ADD ONLY ONCE
+  updatedCart.push({
+    ...item,
+    id: itemId, // 🔥 FORCE SAME ID
+    qyt: 1,
+    category: item.category || detectCategory(item),
+  });
+
+  setcart(updatedCart);
+};
 
   /* DELETE */
 
@@ -149,7 +185,6 @@ const App = () => {
 
   return (
     <div>
-
       <searchvalue.Provider value={search}>
         <searchfunc.Provider value={searfun}>
           <cleardata.Provider value={clear}>
@@ -159,8 +194,9 @@ const App = () => {
                   <price_data.Provider value={price}>
                     <add_cart.Provider value={datacart}>
                       <f_data.Provider value={data}>
+                        <user_data.Provider value={user}>
+                          <login_control.Provider value={setShowLogin}>
                         <cart_data.Provider value={fetch_cart}>
-
                           {/* NAVBAR */}
                           <Navbar
                             setShowLogin={setShowLogin}
@@ -197,12 +233,21 @@ const App = () => {
                             <Route path="/Pharmacy" element={<Pharmacy />} />
                             <Route path="/Babycare" element={<Babycare />} />
                             <Route path="/buy" element={<BuyNow />} />
-                            <Route path="/product-details" element={<ProductDetails />} />
-                            <Route path="/ProfileSidebar" element={<ProfileSidebar />} />
+                            <Route
+                              path="/product-details"
+                              element={<ProductDetails />}
+                            />
+                            <Route
+                              path="/ProfileSidebar"
+                              element={<ProfileSidebar />}
+                            />
                             <Route path="/profile" element={<ProfilePage />} />
+                            <Route path="/Checkout" element={<Checkout />} />
                           </Routes>
-                          <Chatbot/>
+                          <Chatbot />
                         </cart_data.Provider>
+                        </login_control.Provider>
+                        </user_data.Provider>
                       </f_data.Provider>
                     </add_cart.Provider>
                   </price_data.Provider>
@@ -212,7 +257,6 @@ const App = () => {
           </cleardata.Provider>
         </searchfunc.Provider>
       </searchvalue.Provider>
-
     </div>
   );
 };
