@@ -1,5 +1,12 @@
-import React, { useState } from "react";
+// FILE: src/Checkout/Checkout.jsx
+// Drop-in replacement for your existing Checkout.jsx
+// Keeps all your existing UI — adds real Razorpay payment at the final step.
+
+import React, { useState, useContext } from "react";
 import "./Checkout.css";
+// import { useRazorpay } from "../hooks/useRazorpay";
+import { useRazorpay } from "../hooks/useRazorpay";
+import { user_data, cleardata } from "../App";
 
 const SAVED_ADDRESSES = [
   {
@@ -19,31 +26,34 @@ const SAVED_ADDRESSES = [
 ];
 
 const PAYMENT_METHODS = [
-  { id: "upi",  icon: "📲", name: "UPI",         desc: "Pay via GPay, PhonePe, Paytm" },
-  { id: "card", icon: "💳", name: "Credit / Debit Card", desc: "Visa, Mastercard, Rupay" },
-  { id: "cod",  icon: "💵", name: "Cash on Delivery",    desc: "Pay when you receive" },
-  { id: "nb",   icon: "🏦", name: "Net Banking",  desc: "All major banks supported" },
+  { id: "razorpay", icon: "💳", name: "Pay Online",          desc: "UPI, Cards, Net Banking via Razorpay" },
+  { id: "cod",      icon: "💵", name: "Cash on Delivery",    desc: "Pay when you receive" },
 ];
 
 const STEPS = ["Address", "Payment", "Review"];
 
 const Checkout = ({ cartItems, subtotal, delivery, discount, total, onBack }) => {
-  const [step, setStep]               = useState(0);
-  const [selAddr, setSelAddr]         = useState(1);
-  const [showNewAddr, setShowNewAddr] = useState(false);
-  const [newAddr, setNewAddr]         = useState({ name:"", phone:"", line1:"", city:"", state:"", pin:"", tag:"Home" });
-  const [savedAddrs, setSavedAddrs]   = useState(SAVED_ADDRESSES);
-  const [selPay, setSelPay]           = useState("upi");
-  const [upi, setUpi]                 = useState("");
-  const [placed, setPlaced]           = useState(false);
+  const user   = useContext(user_data);
+  const clear1 = useContext(cleardata);
 
+  const { initiatePayment, loading, error: payError, orderStatus, orderId } = useRazorpay();
+
+  const [step,         setStep]         = useState(0);
+  const [selAddr,      setSelAddr]      = useState(1);
+  const [showNewAddr,  setShowNewAddr]  = useState(false);
+  const [newAddr,      setNewAddr]      = useState({ name:"", phone:"", line1:"", city:"", state:"", pin:"", tag:"Home" });
+  const [savedAddrs,   setSavedAddrs]   = useState(SAVED_ADDRESSES);
+  const [selPay,       setSelPay]       = useState("razorpay");
+  const [localError,   setLocalError]   = useState("");
+
+  // ── Save new address ────────────────────────────────────────────────────
   const handleSaveAddr = () => {
     if (!newAddr.name || !newAddr.line1 || !newAddr.city || !newAddr.pin) return;
     const next = {
-      id: Date.now(),
-      tag: newAddr.tag,
-      name: newAddr.name,
-      line: `${newAddr.line1}\n${newAddr.city}, ${newAddr.state} - ${newAddr.pin}`,
+      id:    Date.now(),
+      tag:   newAddr.tag,
+      name:  newAddr.name,
+      line:  `${newAddr.line1}\n${newAddr.city}, ${newAddr.state} - ${newAddr.pin}`,
       phone: newAddr.phone,
     };
     setSavedAddrs([...savedAddrs, next]);
@@ -52,16 +62,70 @@ const Checkout = ({ cartItems, subtotal, delivery, discount, total, onBack }) =>
     setNewAddr({ name:"", phone:"", line1:"", city:"", state:"", pin:"", tag:"Home" });
   };
 
-  if (placed) {
+  // ── Place order handler ─────────────────────────────────────────────────
+  const handlePlaceOrder = async () => {
+    setLocalError("");
+    const addr = savedAddrs.find(a => a.id === selAddr);
+    if (!addr) { setLocalError("Please select a delivery address."); return; }
+
+    if (selPay === "cod") {
+      // COD — no payment gateway, just mark placed locally
+      // You can add a separate Django endpoint for COD if needed
+      alert(`Order placed with Cash on Delivery!\nDelivery to: ${addr.name}`);
+      clear1();
+      return;
+    }
+
+    // Online payment via Razorpay
+    await initiatePayment({
+      cartItems:       cartItems,
+      deliveryAddress: `${addr.name}, ${addr.line.replace("\n", ", ")} | 📞 ${addr.phone}`,
+      deliveryCharge:  delivery,
+      userName:  user?.name  || addr.name,
+      userEmail: user?.email || "",
+      userPhone: user?.phone || addr.phone,
+      onSuccess: (oid) => {
+        clear1();           // empty the cart on success
+        console.log("Order success:", oid);
+      },
+      onFailure: (reason) => {
+        setLocalError(typeof reason === "string" ? reason : reason?.description || "Payment failed.");
+      },
+    });
+  };
+
+  // ── Order SUCCESS screen ────────────────────────────────────────────────
+  if (orderStatus === "SUCCESS") {
     return (
       <div className="checkout-page">
         <div className="checkout-inner">
           <div className="success-screen">
             <div className="success-icon">✓</div>
             <div className="success-title">Order Placed!</div>
-            <div className="success-sub">Thank you for your order. We'll deliver it soon.</div>
-            <div className="success-order">Order ID: #ORD{Date.now().toString().slice(-8)}</div>
+            <div className="success-sub">Thank you! Your payment was successful and the order is confirmed.</div>
+            {orderId && (
+              <div className="success-order">Order ID: #{String(orderId).slice(-8).toUpperCase()}</div>
+            )}
             <button className="success-cta" onClick={onBack}>Continue Shopping</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ── Order FAILED screen ─────────────────────────────────────────────────
+  if (orderStatus === "FAILED") {
+    return (
+      <div className="checkout-page">
+        <div className="checkout-inner">
+          <div className="success-screen failed-screen">
+            <div className="success-icon failed-icon">✕</div>
+            <div className="success-title">Payment Failed</div>
+            <div className="success-sub">{payError || "Your payment could not be processed. Please try again."}</div>
+            <div style={{ display:"flex", gap:12, justifyContent:"center", marginTop:20 }}>
+              <button className="success-cta" onClick={() => window.location.reload()}>Try Again</button>
+              <button className="success-cta" style={{ background:"#555" }} onClick={onBack}>Back to Cart</button>
+            </div>
           </div>
         </div>
       </div>
@@ -101,7 +165,7 @@ const Checkout = ({ cartItems, subtotal, delivery, discount, total, onBack }) =>
           {/* ── Left panel ── */}
           <div>
 
-            {/* STEP 0: Address */}
+            {/* STEP 0 — Address */}
             {step === 0 && (
               <div className="checkout-panel">
                 <div className="panel-title">Delivery Address</div>
@@ -116,13 +180,12 @@ const Checkout = ({ cartItems, subtotal, delivery, discount, total, onBack }) =>
                       <div className="addr-radio"><div className="addr-dot" /></div>
                       <div className="addr-tag">{addr.tag}</div>
                       <div className="addr-name">{addr.name}</div>
-                      <div className="addr-line" style={{ whiteSpace: "pre-line" }}>{addr.line}</div>
-                      <div className="addr-line" style={{ marginTop: 4 }}>📞 {addr.phone}</div>
+                      <div className="addr-line" style={{ whiteSpace:"pre-line" }}>{addr.line}</div>
+                      <div className="addr-line" style={{ marginTop:4 }}>📞 {addr.phone}</div>
                     </div>
                   ))}
                 </div>
 
-                {/* Add new address */}
                 <div className="add-addr-toggle" onClick={() => setShowNewAddr(!showNewAddr)}>
                   + Add a new address
                 </div>
@@ -132,39 +195,38 @@ const Checkout = ({ cartItems, subtotal, delivery, discount, total, onBack }) =>
                     <div className="form-group">
                       <label className="form-label">Full Name</label>
                       <input className="form-input" placeholder="Rahul Sharma"
-                        value={newAddr.name} onChange={e => setNewAddr({...newAddr, name: e.target.value})} />
+                        value={newAddr.name} onChange={e => setNewAddr({...newAddr, name:e.target.value})} />
                     </div>
                     <div className="form-group">
                       <label className="form-label">Phone</label>
                       <input className="form-input" placeholder="10-digit number"
-                        value={newAddr.phone} onChange={e => setNewAddr({...newAddr, phone: e.target.value})} />
+                        value={newAddr.phone} onChange={e => setNewAddr({...newAddr, phone:e.target.value})} />
                     </div>
                     <div className="form-group full">
                       <label className="form-label">Address Line</label>
                       <input className="form-input" placeholder="House no., Street, Area"
-                        value={newAddr.line1} onChange={e => setNewAddr({...newAddr, line1: e.target.value})} />
+                        value={newAddr.line1} onChange={e => setNewAddr({...newAddr, line1:e.target.value})} />
                     </div>
                     <div className="form-group">
                       <label className="form-label">City</label>
                       <input className="form-input" placeholder="Bengaluru"
-                        value={newAddr.city} onChange={e => setNewAddr({...newAddr, city: e.target.value})} />
+                        value={newAddr.city} onChange={e => setNewAddr({...newAddr, city:e.target.value})} />
                     </div>
                     <div className="form-group">
                       <label className="form-label">State</label>
                       <input className="form-input" placeholder="Karnataka"
-                        value={newAddr.state} onChange={e => setNewAddr({...newAddr, state: e.target.value})} />
+                        value={newAddr.state} onChange={e => setNewAddr({...newAddr, state:e.target.value})} />
                     </div>
                     <div className="form-group">
                       <label className="form-label">PIN Code</label>
                       <input className="form-input" placeholder="560001"
-                        value={newAddr.pin} onChange={e => setNewAddr({...newAddr, pin: e.target.value})} />
+                        value={newAddr.pin} onChange={e => setNewAddr({...newAddr, pin:e.target.value})} />
                     </div>
                     <div className="form-group">
                       <label className="form-label">Type</label>
-                      <select className="form-select" value={newAddr.tag} onChange={e => setNewAddr({...newAddr, tag: e.target.value})}>
-                        <option>Home</option>
-                        <option>Work</option>
-                        <option>Other</option>
+                      <select className="form-select" value={newAddr.tag}
+                        onChange={e => setNewAddr({...newAddr, tag:e.target.value})}>
+                        <option>Home</option><option>Work</option><option>Other</option>
                       </select>
                     </div>
                     <button className="save-addr-btn" onClick={handleSaveAddr}>Save Address</button>
@@ -177,7 +239,7 @@ const Checkout = ({ cartItems, subtotal, delivery, discount, total, onBack }) =>
               </div>
             )}
 
-            {/* STEP 1: Payment */}
+            {/* STEP 1 — Payment */}
             {step === 1 && (
               <div className="checkout-panel">
                 <div className="panel-title">Payment Method</div>
@@ -199,16 +261,9 @@ const Checkout = ({ cartItems, subtotal, delivery, discount, total, onBack }) =>
                   ))}
                 </div>
 
-                {selPay === "upi" && (
-                  <div className="upi-input-row">
-                    <input
-                      className="form-input"
-                      style={{ flex: 1 }}
-                      placeholder="yourname@upi"
-                      value={upi}
-                      onChange={e => setUpi(e.target.value)}
-                    />
-                    <button className="coupon-btn" style={{ padding: "10px 16px" }}>Verify</button>
+                {selPay === "razorpay" && (
+                  <div className="razorpay-info">
+                    🔒 You'll be redirected to the secure Razorpay checkout. Supports UPI, Debit/Credit cards, Net Banking & Wallets.
                   </div>
                 )}
 
@@ -218,59 +273,63 @@ const Checkout = ({ cartItems, subtotal, delivery, discount, total, onBack }) =>
               </div>
             )}
 
-            {/* STEP 2: Review */}
+            {/* STEP 2 — Review */}
             {step === 2 && (
               <div className="checkout-panel">
                 <div className="panel-title">Review & Place Order</div>
 
                 {/* Address summary */}
-                <div style={{ marginBottom: 20 }}>
-                  <div style={{ fontSize: "0.72rem", color: "#777", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>Delivering to</div>
+                <div style={{ marginBottom:20 }}>
+                  <div style={{ fontSize:"0.72rem", color:"#777", textTransform:"uppercase", letterSpacing:"0.5px", marginBottom:8 }}>Delivering to</div>
                   {currentAddr && (
-                    <div style={{ fontSize: "0.85rem", color: "#ccc", lineHeight: 1.6 }}>
-                      <strong style={{ color: "#f0ede8" }}>{currentAddr.name}</strong>
+                    <div style={{ fontSize:"0.85rem", color:"#ccc", lineHeight:1.6 }}>
+                      <strong style={{ color:"#f0ede8" }}>{currentAddr.name}</strong>
                       {" — "}{currentAddr.line.replace("\n", ", ")}
-                      <span
-                        style={{ color: "#e8612a", marginLeft: 10, cursor: "pointer", fontSize: "0.75rem" }}
-                        onClick={() => setStep(0)}
-                      >
-                        Change
-                      </span>
+                      <span style={{ color:"#e8612a", marginLeft:10, cursor:"pointer", fontSize:"0.75rem" }}
+                        onClick={() => setStep(0)}>Change</span>
                     </div>
                   )}
                 </div>
 
                 {/* Payment summary */}
-                <div style={{ marginBottom: 20 }}>
-                  <div style={{ fontSize: "0.72rem", color: "#777", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>Payment via</div>
-                  <div style={{ fontSize: "0.85rem", color: "#ccc" }}>
+                <div style={{ marginBottom:20 }}>
+                  <div style={{ fontSize:"0.72rem", color:"#777", textTransform:"uppercase", letterSpacing:"0.5px", marginBottom:8 }}>Payment via</div>
+                  <div style={{ fontSize:"0.85rem", color:"#ccc" }}>
                     {PAYMENT_METHODS.find(p => p.id === selPay)?.name}
-                    {selPay === "upi" && upi && ` (${upi})`}
-                    <span
-                      style={{ color: "#e8612a", marginLeft: 10, cursor: "pointer", fontSize: "0.75rem" }}
-                      onClick={() => setStep(1)}
-                    >
-                      Change
-                    </span>
+                    <span style={{ color:"#e8612a", marginLeft:10, cursor:"pointer", fontSize:"0.75rem" }}
+                      onClick={() => setStep(1)}>Change</span>
                   </div>
                 </div>
 
-                {/* Items list */}
-                <div style={{ fontSize: "0.72rem", color: "#777", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 10 }}>Items ({cartItems.length})</div>
+                {/* Items */}
+                <div style={{ fontSize:"0.72rem", color:"#777", textTransform:"uppercase", letterSpacing:"0.5px", marginBottom:10 }}>Items ({cartItems.length})</div>
                 {cartItems.map((item, i) => (
                   <div key={i} style={{ display:"flex", gap:10, alignItems:"center", marginBottom:10 }}>
-                    <img
-                      src={item.image || item.images}
-                      alt={item.title || item.name}
+                    <img src={item.image || item.images} alt={item.title || item.name}
                       style={{ width:40, height:40, borderRadius:7, objectFit:"cover", background:"#222" }}
-                    />
+                      onError={e => { e.target.src = "https://placehold.co/40x40?text=?"; }} />
                     <div style={{ flex:1, fontSize:"0.82rem", color:"#ccc" }}>{item.title || item.name}</div>
                     <div style={{ fontSize:"0.82rem", color:"#f0ede8", fontWeight:600 }}>₹{item.price * (item.qyt || 1)}</div>
                   </div>
                 ))}
 
-                <button className="continue-btn" onClick={() => setPlaced(true)}>
-                  Place Order · ₹{Math.max(0, total).toFixed(0)}
+                {/* Error */}
+                {(localError || payError) && (
+                  <div className="pay-error">{localError || payError}</div>
+                )}
+
+                <button
+                  className="continue-btn"
+                  onClick={handlePlaceOrder}
+                  disabled={loading}
+                  style={{ opacity: loading ? 0.7 : 1 }}
+                >
+                  {loading
+                    ? "⏳ Processing..."
+                    : selPay === "cod"
+                      ? `Place Order (COD) · ₹${Math.max(0, total).toFixed(0)}`
+                      : `Pay Now · ₹${Math.max(0, total).toFixed(0)}`
+                  }
                 </button>
               </div>
             )}
@@ -283,11 +342,9 @@ const Checkout = ({ cartItems, subtotal, delivery, discount, total, onBack }) =>
 
             {cartItems.map((item, i) => (
               <div className="os-item" key={i}>
-                <img
-                  src={item.image || item.images}
-                  alt={item.title || item.name}
+                <img src={item.image || item.images} alt={item.title || item.name}
                   className="os-item-img"
-                />
+                  onError={e => { e.target.src = "https://placehold.co/40x40?text=?"; }} />
                 <div className="os-item-info">
                   <div className="os-item-name">{item.title || item.name}</div>
                   <div className="os-item-qty">Qty: {item.qyt || 1}</div>
@@ -297,7 +354,6 @@ const Checkout = ({ cartItems, subtotal, delivery, discount, total, onBack }) =>
             ))}
 
             <hr className="os-divider" />
-
             <div className="os-row"><span>Subtotal</span><span>₹{subtotal.toFixed(0)}</span></div>
             <div className="os-row">
               <span>Delivery</span>
@@ -308,13 +364,13 @@ const Checkout = ({ cartItems, subtotal, delivery, discount, total, onBack }) =>
             {discount > 0 && (
               <div className="os-row"><span>Discount</span><span style={{ color:"#4caf50" }}>−₹{discount}</span></div>
             )}
-
             <hr className="os-divider" />
-
             <div className="os-total-row">
               <span className="os-total-label">Total</span>
               <span className="os-total-value">₹{Math.max(0, total).toFixed(0)}</span>
             </div>
+
+            <div className="secure-badge">🔒 100% Secure Checkout</div>
           </div>
 
         </div>
