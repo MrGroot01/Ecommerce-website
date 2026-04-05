@@ -20,6 +20,7 @@ import ProfileSidebar from "./ProfileSidebar/ProfileSidebar";
 import ProfilePage from "./ProfilePage/ProfilePage";
 import Chatbot from "./Chatbot/Chatbot";
 import Checkout from "./Checkout/Checkout";
+import NotFound from "./NotFound/NotFound";
 
 /* CONTEXTS */
 
@@ -233,6 +234,7 @@ const fetch_cart = (item) => {
                             <Route path="/Pharmacy" element={<Pharmacy />} />
                             <Route path="/Babycare" element={<Babycare />} />
                             <Route path="/buy" element={<BuyNow />} />
+                            <Route path="*" element={<NotFound/>} />
                             <Route
                               path="/product-details"
                               element={<ProductDetails />}
