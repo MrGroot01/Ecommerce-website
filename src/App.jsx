@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 import Navbar from "./Navbar/Navbar";
 import { Route, Routes } from "react-router-dom";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import Home from "./Home/Home";
 import About from "./About/About";
@@ -186,6 +187,7 @@ const fetch_cart = (item) => {
 
   return (
     <div>
+      <GoogleOAuthProvider clientId="325836534812-bb0m0j91fgghrei7shrhpi54uuspinei.apps.googleusercontent.com">
       <searchvalue.Provider value={search}>
         <searchfunc.Provider value={searfun}>
           <cleardata.Provider value={clear}>
@@ -259,6 +261,7 @@ const fetch_cart = (item) => {
           </cleardata.Provider>
         </searchfunc.Provider>
       </searchvalue.Provider>
+      </GoogleOAuthProvider>
     </div>
   );
 };
