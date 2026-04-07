@@ -248,8 +248,8 @@ const SkeletonCard = () => (
 /* ── CATEGORIES ── */
 const CATEGORIES = [
   { key: "all", label: "All", icon: "🛍️", nav: null },
-  { key: "vegetables", label: "Vegetables", icon: "🥦", nav: null },
-  { key: "fruits", label: "Fruits", icon: "🍎", nav: null },
+  { key: "all", label: "Vegetables", icon: "🥦", nav: null },
+  { key: "all", label: "Fruits", icon: "🍎", nav: null },
   { key: "pharmacy", label: "Pharmacy", icon: "💊", nav: "/pharmacy" },
   { key: "petcare", label: "Pet Care", icon: "🐾", nav: "/petcare" },
   { key: "babycare", label: "Baby Care", icon: "🍼", nav: "/babycare" },
