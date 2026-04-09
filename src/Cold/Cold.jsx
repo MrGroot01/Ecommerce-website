@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import "./cold.css";
+import "./Cold.css";
 import { cart_data, searchvalue } from "../App";
 
 const CATEGORIES = [
