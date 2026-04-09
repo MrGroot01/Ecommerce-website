@@ -22,6 +22,10 @@ import ProfilePage from "./ProfilePage/ProfilePage";
 import Chatbot from "./Chatbot/Chatbot";
 import Checkout from "./Checkout/Checkout";
 import NotFound from "./NotFound/NotFound";
+import Masala from "./Masala/Masala";
+import Electric from "./Electric/Electric";
+import Cold from "./Cold/Cold";
+import Shoes from "./Shoes/Shoes";
 
 /* CONTEXTS */
 
@@ -237,6 +241,10 @@ const fetch_cart = (item) => {
                             <Route path="/Babycare" element={<Babycare />} />
                             <Route path="/buy" element={<BuyNow />} />
                             <Route path="*" element={<NotFound/>} />
+                            <Route path="/masala" element={<Masala/>} />
+                            <Route path="/electronics" element={<Electric/>} />
+                            <Route path="/cold" element={<Cold/>} />
+                            <Route path="/shoes" element={<Shoes/>}/>
                             <Route
                               path="/product-details"
                               element={<ProductDetails />}

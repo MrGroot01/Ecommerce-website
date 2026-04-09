@@ -253,6 +253,10 @@ const CATEGORIES = [
   { key: "pharmacy", label: "Pharmacy", icon: "💊", nav: "/pharmacy" },
   { key: "petcare", label: "Pet Care", icon: "🐾", nav: "/petcare" },
   { key: "babycare", label: "Baby Care", icon: "🍼", nav: "/babycare" },
+  { key: "masala", label: "Masala", icon: "🌶️", nav: "/masala" },
+  { key: "electronics", label: "Electronics", icon: "📱", nav: "/electronics" },
+  { key: "cold", label: "Cold Items", icon: "🥤", nav: "/cold" },
+  { key: "shoes", label: "Shoes", icon: "👟", nav: "/shoes" },
 ];
 
 /* ── MAIN ── */
@@ -270,30 +274,95 @@ const Products = () => {
   const [viewMode, setViewMode] = useState("grid"); // grid | list
 
   const fetchExtraProducts = async () => {
-    setLoading(true);
+  setLoading(true);
+
+  try {
     const urls = [
       "https://babycare-tawz.onrender.com/api/",
       "https://pharmacyapi-1.onrender.com/api/",
       "https://petcare-byc5.onrender.com/api/",
+      "https://masalaitems.onrender.com/api/products/",
+      "https://electronicsitems.onrender.com/api/",
+      "https://myproject-1-6l2h.onrender.com/api/products/",
+      "https://shoes-api-oc8p.onrender.com/shoes/"
     ];
-    const results = await Promise.allSettled(urls.map((url) => fetch(url).then((r) => r.json())));
-    const merged = [];
-    results.forEach((res) => { if (res.status === "fulfilled") merged.push(...res.value); });
-    setExtraProducts(merged);
-    setLoading(false);
-  };
 
+    const results = await Promise.allSettled(
+      urls.map((url) => fetch(url).then((r) => r.json()))
+    );
+
+    const merged = [];
+
+    results.forEach((res) => {
+      if (res.status === "fulfilled") {
+        const data = res.value;
+
+        const items = Array.isArray(data)
+          ? data
+          : data.results || [];
+
+        merged.push(
+          ...items.map((item) => ({
+            ...item,
+            price: item.discount_price || item.price || 0,
+            mainCategory:
+              item.is_cold
+                ? "cold"
+                : item.brand && item.size
+                ? "shoes"
+                : item.brand
+                ? "electronics"
+                : item.manufacturer
+                ? "pharmacy"
+                : item.category?.toLowerCase() || "general",
+            subCategory: item.category?.toLowerCase(),
+            image: item.image,
+          }))
+        );
+      }
+    });
+
+    setExtraProducts(merged);
+
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setLoading(false);
+  }
+}; // ✅ VERY IMPORTANT
   useEffect(() => { fetchExtraProducts(); }, []);
 
-  const allProducts = [...(data1 || []), ...extraProducts];
-  const searched = allProducts.filter((item) => item.name?.toLowerCase().includes((search || "").toLowerCase()));
-  const filtered = category === "all" ? searched : searched.filter((p) => p.category === category);
-  const sorted = [...filtered].sort((a, b) => {
-    if (sortBy === "price-low") return Number(a.price) - Number(b.price);
-    if (sortBy === "price-high") return Number(b.price) - Number(a.price);
-    if (sortBy === "name") return a.name?.localeCompare(b.name);
-    return 0;
-  });
+  // 🔥 Merge all products
+const allProducts = [...(data1 || []), ...extraProducts];
+
+const searched = allProducts.filter((item) =>
+  item.name?.toLowerCase().includes((search || "").toLowerCase())
+);
+
+// 📂 CATEGORY FILTER (FIXED - supports all APIs)
+const filtered =
+  category === "all"
+    ? searched
+    : searched.filter((p) =>
+        p.category?.toLowerCase().includes(category.toLowerCase())
+      );
+
+// 🔃 SORTING (SAFE VERSION)
+const sorted = [...filtered].sort((a, b) => {
+  if (sortBy === "price-low") {
+    return Number(a.price || 0) - Number(b.price || 0);
+  }
+
+  if (sortBy === "price-high") {
+    return Number(b.price || 0) - Number(a.price || 0);
+  }
+
+  if (sortBy === "name") {
+    return (a.name || "").localeCompare(b.name || "");
+  }
+
+  return 0;
+});
 
   return (
     <div className="products-page">
