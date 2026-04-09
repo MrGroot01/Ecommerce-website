@@ -748,7 +748,7 @@ const Home = () => {
         <ul>
           <li>📧 support@quickkart.com</li>
           <li>{"📞 1800-123-4567"}</li>
-          <li>🕐 Mon–Sat 9AM–8PM</li>
+          <li>🕐 Mon-Sat 9AM-8PM</li>
           <li>📍 Bengaluru, India</li>
         </ul>
       </div>
