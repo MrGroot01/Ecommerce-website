@@ -168,7 +168,6 @@ Open browser
 http://localhost:5173
 ```
 
----
 
 ## 📸 Screenshots
 
@@ -216,8 +215,6 @@ http://localhost:5173
 
 ### FrontEnd Vercel
 <img width="1920" height="1080" alt="Screenshot 2026-04-10 122923" src="https://github.com/user-attachments/assets/9bacdccf-05c3-44ff-bdb4-55e08ea148f3" />
-
----
 
 ## 🚀 Future Improvements
 
