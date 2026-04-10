@@ -2,7 +2,7 @@
 
 🚀 A modern **full-stack e-commerce web application** built using **React + Vite** for high performance and seamless user experience.
 
-This application allows users to browse products, manage their shopping cart, and complete purchases through an intuitive and responsive interface. It integrates a Django-based backend and real-time features to simulate a production-level online store.
+This application allows users to browse products, manage their shopping cart, and complete purchases through an intuitive and responsive interface. It integrates a Django-based backend to simulate a real-world production-level online store.
 
 ---
 
@@ -17,65 +17,65 @@ This application allows users to browse products, manage their shopping cart, an
 
 ---
 
----
-
 ## 🌐 Live Demo
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit-blue?style=for-the-badge&logo=vercel&logoColor=white)](https://ecomerce-website-gold.vercel.app/)
+🚀 Experience the application live:
+
+🔗 **Frontend:** https://ecomerce-website-gold.vercel.app  
+🎟 **BookMyShow App:** https://book-my-show-gf7w.vercel.app  
+⚙️ **Backend API:** https://petcare-byc5.onrender.com  
 
 ---
 
 ## ✨ Features
 
-- 🛍 **Dynamic Product Listing** – Displays products with images, pricing, and category-based filtering  
-- 🛒 **Advanced Cart Management** – Add, remove, and update product quantities seamlessly  
-- ➕ **Quantity Control** – Increase or decrease item quantity in real-time  
-- ❌ **Remove Items** – Delete individual products from the cart  
-- 🧹 **Clear Cart** – Remove all items with a single action  
-- 💰 **Real-Time Price Calculation** – Automatic total price updates based on cart items  
-- 💳 **Checkout Workflow** – Multi-step checkout (Address → Payment → Review)  
-- 💸 **Online Payment Integration** – Secure payments via Razorpay  
-- 👤 **User Profile Management** – Manage user details and account information  
-- 📩 **Contact Form Integration** – EmailJS-based contact system  
-- 🗂 **Category Navigation** – Easy browsing using categorized products  
-- 🔍 **Search & Filtering** – Find products quickly  
-- 🖼 **Dynamic Image Gallery** – Random images powered by API  
-- 📱 **Responsive Design** – Optimized for mobile, tablet, and desktop  
-- ⚡ **Fast Performance** – Optimized UI with smooth interactions  
+- 🛍 Product listing with images and categories  
+- 🛒 Add, remove, and manage cart items  
+- ➕ Increase / decrease product quantity  
+- 🧹 Clear cart functionality  
+- 💰 Real-time total price calculation  
+- 💳 Multi-step checkout (Address → Payment → Review)  
+- 💸 Razorpay payment integration  
+- 👤 User profile management  
+- 📩 Contact form (EmailJS)  
+- 🔍 Search & filtering  
+- 🖼 Random image gallery using API  
+- 📱 Fully responsive UI  
 
 ---
 
 ## 🛠 Tech Stack
 
 ### 💻 Frontend
-- React.js (Component-based UI)
-- JavaScript (ES6+)
-- HTML5
-- CSS3
+- React.js  
+- JavaScript (ES6+)  
+- HTML5  
+- CSS3  
 
-### ⚙️ Libraries & Tools
-- React Router (Client-side routing)
-- EmailJS (Contact form integration)
-- Vite (Fast build tool & development server)
+### ⚙️ Tools & Libraries
+- React Router  
+- EmailJS  
+- Vite  
 
 ### 🌐 Backend
-- Django (REST API)
-- Python
+- Django (REST API)  
+- Python  
 
 ### 🗄 Database
-- SQLite / MySQL
+- SQLite / MySQL  
 
 ### 🚀 Deployment
-- Vercel (Frontend)
-- Render (Backend)
+- Vercel (Frontend)  
+- Render (Backend)  
 
 ### 🔧 Version Control
-- Git & GitHub
+- Git & GitHub  
+
 ---
 
 ## 📂 Project Structure
 
-```
+```bash
 src/
 ├── babycare/
 ├── BuyNow/
@@ -98,78 +98,29 @@ src/
 ├── ProfileSidebar/
 ├── Randomimg/
 ├── Shoes/
-│
-├── App.css
+
 ├── App.jsx
-├── index.css
 ├── main.jsx
-│
-├── .env.local
-├── .gitignore
-├── eslint.config.js
-└── index.html
+├── index.css
 
----
-## 📂 Project Structure
 
-- **Components & Pages**
-  - `Home/` – Landing page UI
-  - `Products/` – Product listing & filtering
-  - `ProductDetails/` – Individual product view
-  - `AddCart/` – Cart management
-  - `Checkout/` – Multi-step checkout process
-  - `BuyNow/` – Direct purchase flow
-  - `ProfilePage/` – User account details
-  - `ProfileSidebar/` – User navigation panel
-  - `Login/` – Authentication UI
-  - `Contact/` – Contact form (EmailJS)
-
-- **Categories**
-  - `babycare/`, `PetCare/`, `Pharmacy/`, `Masala/`, `Shoes/`, etc.
-
-- **Utilities**
-  - `hooks/` – Custom React hooks
-  - `Randomimg/` – Dynamic images
-
-- **Core Files**
-  - `App.jsx` – Main application component
-  - `main.jsx` – Entry point
-  - `index.css` – Global styles
-
-## ⚙️ Installation
-
-Clone the repository
-
-```
-git clone https://github.com/MrGroot01/Ecommerce-website.git
-```
-
-Navigate to project folder
-
-```
+⚙️ Installation & Setup
+🔹 Frontend
+- git clone https://github.com/MrGroot01/Ecommerce-website.git
 cd Ecommerce-website
-```
-
-Install dependencies
-
-```
 npm install
-```
-
-Run development server
-
-```
 npm run dev
-```
 
-Open browser
-
-```
+👉 Open in browser:
 http://localhost:5173
-```
 
+Backend (Django):
+cd backend
+pip install -r requirements.txt
+python manage.py runserver
 
-...
+👉 Backend runs on:
+http://127.0.0.1:8000
 
 ## 📸 Screenshots
 
@@ -191,42 +142,4 @@ http://localhost:5173
 ### 💳 Payment Page
 ![Payment](https://github.com/user-attachments/assets/6b54ccff-b917-4c65-8c8d-1b6d3d7a9abc)
 
-...
-## 🚀 Future Improvements
 
-- 🔍 **Advanced Product Search** – Implement search with suggestions and keyword matching  
-- ❤️ **Wishlist Functionality** – Allow users to save products for later  
-- 🛒 **Enhanced Checkout System** – Improve multi-step checkout experience  
-- 💳 **Secure Payment Integration** – Add Razorpay/Stripe for real transactions  
-- 🔐 **User Authentication System** – Login, signup, and protected routes using JWT  
-- 🎯 **Product Filtering & Sorting** – Filter by price, category, ratings, and sort options  
-- 📦 **Order Management System** – Track orders and order history  
-- 🧾 **Invoice Generation** – Generate downloadable invoices for users  
-- 🌍 **Location-Based Services** – Auto-detect user location for delivery  
-- 📊 **Admin Dashboard** – Manage products, users, and orders  
-- ⚡ **Performance Optimization** – Lazy loading, code splitting, and caching  
-- 📱 **Progressive Web App (PWA)** – Make the app installable on devices  
-
----
-
-## 👨‍💻 Author
-
-**Kiran D T**  
-🚀 Full Stack Developer  
-
-- 🌐 Portfolio: https://ecomerce-website-gold.vercel.app/  
-- 🎟 BookMyShow App: https://book-my-show-gf7w.vercel.app/  
-- 💼 LinkedIn: https://linkedin.com/in/kirandt  
-- 💻 GitHub: https://github.com/MrGroot01  
-- 📧 Email: kirand09876@gmail.com  
-
-✨ Passionate about building scalable web applications and modern UI/UX experiences.
-
----
-## 📜 License
-
-This project is licensed under the **MIT License**.
-
-You are free to use, modify, and distribute this project with proper attribution.
-
-For more details, see the [LICENSE](LICENSE) file.
