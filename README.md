@@ -72,7 +72,6 @@ This application allows users to browse products, manage their shopping cart, an
 - Git & GitHub  
 
 ---
-
 ## 📂 Project Structure
 
 ```bash
@@ -103,43 +102,98 @@ src/
 ├── main.jsx
 ├── index.css
 
+```
 
-⚙️ Installation & Setup
-🔹 Frontend
-- git clone https://github.com/MrGroot01/Ecommerce-website.git
-cd Ecommerce-website
-npm install
-npm run dev
-
-👉 Open in browser:
-http://localhost:5173
-
-Backend (Django):
-cd backend
-pip install -r requirements.txt
-python manage.py runserver
-
-👉 Backend runs on:
-http://127.0.0.1:8000
-
-## 📸 Screenshots
+## 📸 Screenshots 
 
 ### 🏠 Home Page
-![Home](https://github.com/user-attachments/assets/16a2faa4-7de8-4d3b-9a0d-1525775a7918)
+<img width="1920" height="1080" alt="Screenshot 2026-04-10 122105" src="https://github.com/user-attachments/assets/0e3d6404-736c-4953-89f3-a4be69065628" />
 
-### 🛍 Products Page
-![Products](https://github.com/user-attachments/assets/ba64434a-040a-4f72-bf45-36bbade8989e)
+### Product Page
+<img width="1920" height="1080" alt="Screenshot 2026-04-10 125820" src="https://github.com/user-attachments/assets/585746da-de51-48c8-b92c-9e71a450dbbe" />
 
-### 🛒 Cart Page
-![Cart](https://github.com/user-attachments/assets/bebd78df-48fd-4138-b053-8f016b10c16c)
+### Contact Page
+<img width="1920" height="1080" alt="Screenshot 2026-04-10 122152" src="https://github.com/user-attachments/assets/1f429125-cbbe-460e-b1d1-8ff9f162dd5a" />
 
-### 📩 Contact Page
-![Contact](https://github.com/user-attachments/assets/f8bafb52-97eb-4d58-81b7-4ae0e02ccb8e)
+### Setting Page
+<img width="1920" height="1080" alt="Screenshot 2026-04-10 122207" src="https://github.com/user-attachments/assets/cb5fef58-2ce3-48a9-a909-ebc63b543456" />
 
-### 🎯 Checkout Page
-![Checkout](https://github.com/user-attachments/assets/1b865a8a-b637-4b76-8b4f-2c1f0b0f9abc)
+### Cart Page
+<img width="1920" height="1080" alt="Screenshot 2026-04-10 122218" src="https://github.com/user-attachments/assets/6009ee0a-3a77-41f0-a892-409783b1f0c1" />
 
-### 💳 Payment Page
-![Payment](https://github.com/user-attachments/assets/6b54ccff-b917-4c65-8c8d-1b6d3d7a9abc)
+### Address Page
+<img width="1920" height="1080" alt="Screenshot 2026-04-10 122231" src="https://github.com/user-attachments/assets/ffb90e72-87ac-4293-be22-30499363d418" />
+
+### Payment Slection
+<img width="1920" height="1080" alt="Screenshot 2026-04-10 122242" src="https://github.com/user-attachments/assets/c2a36691-6531-4666-ae93-18999cd17e1c" />
+
+### Payment 
+<img width="1920" height="1080" alt="Screenshot 2026-04-10 122423" src="https://github.com/user-attachments/assets/4e7993f1-f94b-4266-a58e-17f61d85c895" />
+
+### Api Fetchs
+<img width="1920" height="1080" alt="Screenshot 2026-04-10 122528" src="https://github.com/user-attachments/assets/dacdb089-0173-4fd3-a47b-fa1d498988fd" />
+
+
+###⚙️ Installation & Setup
+- 🔹 Frontend:
+- git clone https://github.com/MrGroot01/Ecommerce-website.git
+- cd Ecommerce-website
+- npm install
+- npm run dev
+
+  ##🔹 Backend (Django):
+ - cd backend
+- pip install -r requirements.txt
+- python manage.py runserver
+
+---
+
+## 🚀 Future Improvements
+
+- 🔍 **Advanced Product Search** – Implement search with suggestions and keyword matching  
+- ❤️ **Wishlist Functionality** – Allow users to save products for later  
+- 🛒 **Enhanced Checkout System** – Improve multi-step checkout experience  
+- 💳 **Secure Payment Integration** – Add Razorpay/Stripe for real transactions  
+- 🔐 **User Authentication System** – Login, signup, and protected routes using JWT  
+- 🎯 **Product Filtering & Sorting** – Filter by price, category, ratings, and sort options  
+- 📦 **Order Management System** – Track orders and order history  
+- 🧾 **Invoice Generation** – Generate downloadable invoices for users  
+- 🌍 **Location-Based Services** – Auto-detect user location for delivery  
+- 📊 **Admin Dashboard** – Manage products, users, and orders  
+- ⚡ **Performance Optimization** – Lazy loading, code splitting, and caching  
+- 📱 **Progressive Web App (PWA)** – Make the app installable on devices  
+
+---
+
+## 👨‍💻 Author
+
+**Kiran D T**  
+🚀 Full Stack Developer  
+
+- 🌐 Portfolio: https://ecomerce-website-gold.vercel.app/  
+- 🎟 BookMyShow App: https://book-my-show-gf7w.vercel.app/  
+- 💼 LinkedIn: https://linkedin.com/in/kirandt  
+- 💻 GitHub: https://github.com/MrGroot01  
+- 📧 Email: kirand09876@gmail.com  
+
+✨ Passionate about building scalable web applications and modern UI/UX experiences.
+
+
+## 📜 License
+
+This project is licensed under the **MIT License**.
+
+You are free to use, modify, and distribute this project with proper attribution.
+
+For more details, see the [LICENSE](LICENSE) file.
+
+
+
+
+
+
+
+
+
 
 
