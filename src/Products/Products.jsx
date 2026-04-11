@@ -389,7 +389,7 @@ const sorted = [...filtered].sort((a, b) => {
               <div className="stat-divider" />
               <div className="stat"><span className="stat-num">500+</span><span className="stat-label">Products</span></div>
               <div className="stat-divider" />
-              <div className="stat"><span className="stat-num">30min</span><span className="stat-label">Delivery</span></div>
+              <div className="stat"><span className="stat-num">15min</span><span className="stat-label">Delivery</span></div>
             </div>
           </div>
         </div>

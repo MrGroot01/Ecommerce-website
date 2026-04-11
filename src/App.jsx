@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import Navbar from "./Navbar/Navbar";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import Home from "./Home/Home";
@@ -26,6 +26,10 @@ import Masala from "./Masala/Masala";
 import Electric from "./Electric/Electric";
 import Cold from "./Cold/Cold";
 import Shoes from "./Shoes/Shoes";
+import OrderHistory from "./pages/Orderhistory";
+import Wishlist from "./pages/Wishlist";
+import Rewards from "./pages/Rewards";
+import Returns from "./pages/Returns";
 
 /* CONTEXTS */
 
@@ -234,6 +238,7 @@ const fetch_cart = (item) => {
                             <Route path="/About" element={<About />} />
                             <Route path="/Products" element={<Products />} />
                             <Route path="/Contact" element={<Contact />} />
+                            <Route path="/help" element={<Navigate to="/contact" replace />}/>
                             <Route path="/Addcart" element={<Addcart />} />
                             <Route path="/Rondomimg" element={<Rondomimg />} />
                             <Route path="/PetCare" element={<PetCare />} />
@@ -245,14 +250,13 @@ const fetch_cart = (item) => {
                             <Route path="/electronics" element={<Electric/>} />
                             <Route path="/cold" element={<Cold/>} />
                             <Route path="/shoes" element={<Shoes/>}/>
-                            <Route
-                              path="/product-details"
-                              element={<ProductDetails />}
-                            />
-                            <Route
-                              path="/ProfileSidebar"
-                              element={<ProfileSidebar />}
-                            />
+                            <Route path="/orders" element={<OrderHistory/>}/>
+                            <Route path="/wishlist" element={<Wishlist/>} />
+                            <Route path="/rewards" element={<Rewards/>} />
+                            <Route path="/notifications" element={<Notification/>} />
+                            <Route path="/returns" element={<Returns/>} />
+                            <Route path="/product-details" element={<ProductDetails />} />
+                            <Route path="/ProfileSidebar" element={<ProfileSidebar />} />
                             <Route path="/profile" element={<ProfilePage />} />
                             <Route path="/Checkout" element={<Checkout />} />
                           </Routes>

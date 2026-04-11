@@ -5,6 +5,8 @@ import { searchvalue, cart_data } from "../App";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { FaXTwitter } from "react-icons/fa6";
+import { FaFacebookF, FaInstagram, FaLinkedinIn, FaGithub } from "react-icons/fa";
 
 /* ── API endpoints ── */
 const API_MAP = {
@@ -213,7 +215,7 @@ const Home = () => {
       bg: "linear-gradient(135deg,#0f2027,#203a43,#2c5364)",
       img: "https://i0.wp.com/dailyneeds247.com/wp-content/uploads/2025/12/DN247.jpeg?fit=1200%2C400&ssl=1",
       eyebrow: "Daily Essentials",
-      title: "Fresh Groceries\nDelivered in 30 Min",
+      title: "Fresh Groceries\nDelivered in 15 Min",
       sub: "From farm to your doorstep, guaranteed fresh",
       cta: "Shop Now", link: "/Products",
       pill: "🚚 Free delivery above ₹499",
@@ -331,7 +333,7 @@ const Home = () => {
             <div className="announce-inner">
               <span>🎉 Free delivery on orders above ₹499</span>
               <span className="ann-sep" />
-              <span>⚡ 30-min delivery in select areas</span>
+              <span>⚡ 15-min delivery in select areas</span>
               <span className="ann-sep" />
               <span>🔒 100% Secure Payments</span>
               <span className="ann-sep" />
@@ -609,11 +611,33 @@ const Home = () => {
         <div className="footer-inner">
           <div className="footer-top">
             <div className="ft-brand">
-              <h3>🛒 MyShop</h3>
+              <h3>🛒 QuickKart</h3>
               <p>Your trusted daily needs partner. Fast delivery, great prices, happy customers across India.</p>
               <div className="social-row">
-                {["📘","📸","🐦","▶️"].map((s, i) => <a key={i} href="#" className="social-icon">{s}</a>)}
-              </div>
+  <a href="#" className="social-icon"><FaFacebookF /></a>
+
+  <a href="#" className="social-icon"><FaXTwitter /></a>
+
+  <a href="#" className="social-icon"><FaInstagram /></a>
+
+  <a 
+    href="https://www.linkedin.com/in/kirandt/" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    className="social-icon"
+  >
+    <FaLinkedinIn />
+  </a>
+
+  <a 
+    href="https://github.com/MrGroot01" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    className="social-icon"
+  >
+    <FaGithub />
+  </a>
+</div>
             </div>
             <div className="ft-links">
               <h4>Quick Links</h4>
@@ -627,24 +651,24 @@ const Home = () => {
             <div className="ft-links">
               <h4>Customer Service</h4>
               <ul>
-                <li><a href="#">Track Order</a></li>
-                <li><a href="#">Returns & Refunds</a></li>
-                <li><a href="#">Help Center</a></li>
-                <li><a href="#">Contact Us</a></li>
+                <li><a href="/orders">Track Order</a></li>
+                <li><a href="/returns">Returns & Refunds</a></li>
+                <li><a href="/contact">Help Center</a></li>
+                <li><a href="/contact">Contact Us</a></li>
               </ul>
             </div>
             <div className="ft-links">
               <h4>Contact</h4>
               <ul>
-                <li>📧 support@myshop.com</li>
-                <li>📞 1800-123-4567</li>
+                <li>📧 kirand09876@gmail.com</li>
+                <li>📞 +91 7483594153</li>
                 <li>🕐 Mon–Sat 9AM–8PM</li>
                 <li>📍 Bengaluru, India</li>
               </ul>
             </div>
           </div>
           <div className="footer-bottom">
-            <p>© 2026 MyShop. All rights reserved.</p>
+            <p>© 2026 QuickKart. All rights reserved.</p>
             <div className="pay-icons">
               {["💳 Visa","💳 Mastercard","📱 UPI","💰 COD","🏦 Net Banking"].map((p, i) => (
                 <span key={i}>{p}</span>

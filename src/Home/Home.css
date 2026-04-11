@@ -1275,3 +1275,33 @@
   .promo-card { padding: 28px 20px; }
   .promo-left h2 { font-size: 22px; }
 }
+.social-row {
+  display: flex;
+  gap: 12px;
+}
+
+.social-icon {
+  width: 45px;
+  height: 45px;
+  background: #c8c3c3; /* dark circle */
+  color: rgb(255, 0, 0);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+/* Hover Effects (Professional look) */
+.social-icon:hover {
+  transform: translateY(-3px);
+}
+
+/* Individual brand hover colors */
+.social-icon:nth-child(1):hover { background: #1877F2; } /* Facebook */
+.social-icon:nth-child(2):hover { background: #000000; } /* X */
+.social-icon:nth-child(3):hover { background: #E4405F; } /* Instagram */
+.social-icon:nth-child(4):hover { background: #0077B5; } /* LinkedIn */
+.social-icon:nth-child(5):hover { background: #333; }     /* GitHub */

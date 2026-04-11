@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import emailjs from "@emailjs/browser";
 import "./Contact.css";
+import { Route, Routes} from "react-router-dom";
+import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
 const Contact = () => {
   const [form, setForm] = useState({ name: "", email: "", subject: "", category: "", message: "" });
@@ -32,7 +35,7 @@ const Contact = () => {
       icon: "📦",
       title: "Order Support",
       desc: "Track orders, report issues, request cancellations or returns.",
-      detail: "orders@quickcart.in",
+      detail: "shivashankarr9035@gmail.com",
       sub: "Mon–Sat · 9AM–8PM IST",
       color: "grn",
     },
@@ -48,7 +51,7 @@ const Contact = () => {
       icon: "🎁",
       title: "Rewards & Offers",
       desc: "Points, coupons, cashback and promotional deals.",
-      detail: "rewards@quickcart.in",
+      detail: "tejupatelgd@gmail.com",
       sub: "Mon–Fri · 10AM–5PM IST",
       color: "amb",
     },
@@ -56,7 +59,7 @@ const Contact = () => {
       icon: "💬",
       title: "General Enquiry",
       desc: "Feedback, partnerships, press or anything else.",
-      detail: "hello@quickcart.in",
+      detail: "k.kiran.d.t@gmail.com",
       sub: "Mon–Fri · 9AM–6PM IST",
       color: "pur",
     },
@@ -147,14 +150,14 @@ const Contact = () => {
                   <label>Full Name <span>*</span></label>
                   <input
                     type="text" name="name" value={form.name}
-                    onChange={handleChange} placeholder="Ravi Kumar" required
+                    onChange={handleChange} placeholder="Kiran " required
                   />
                 </div>
                 <div className="cp-field">
                   <label>Email Address <span>*</span></label>
                   <input
                     type="email" name="email" value={form.email}
-                    onChange={handleChange} placeholder="ravi@email.com" required
+                    onChange={handleChange} placeholder="kiran@email.com" required
                   />
                 </div>
               </div>
@@ -228,7 +231,7 @@ const Contact = () => {
                 <div className="cp-quick-item">
                   <span className="cp-qi-icon cp-qi-amb">💬</span>
                   <div>
-                    <strong>Live Chat</strong>
+                    <strong>Live Chat(Coming Soon)</strong>
                     <span>Available on app</span>
                     <small>24/7 availability</small>
                   </div>
@@ -266,18 +269,24 @@ const Contact = () => {
             <div className="cp-aside-card">
               <h3>🌐 Follow Us</h3>
               <div className="cp-social-row">
-                {[
-                  { icon: "📘", label: "Facebook",  href: "https://facebook.com",  cls: "fb"  },
-                  { icon: "📸", label: "Instagram", href: "https://instagram.com", cls: "ig"  },
-                  { icon: "🐦", label: "Twitter",   href: "https://twitter.com",   cls: "tw"  },
-                  { icon: "▶️", label: "YouTube",   href: "https://youtube.com",   cls: "yt"  },
-                ].map((s, i) => (
-                  <a key={i} href={s.href} target="_blank" rel="noreferrer" className={`cp-social-btn cp-s-${s.cls}`}>
-                    <span>{s.icon}</span>
-                    <span>{s.label}</span>
-                  </a>
-                ))}
-              </div>
+  {[
+    { icon: <FaFacebookF />, label: "Facebook",  href: "https://facebook.com",  cls: "fb" },
+    { icon: <FaInstagram />, label: "Instagram", href: "https://instagram.com", cls: "ig" },
+    { icon: <FaXTwitter />, label: "Twitter",   href: "https://twitter.com",   cls: "tw" },
+    { icon: <FaYoutube />, label: "YouTube",   href: "https://youtube.com",   cls: "yt" },
+  ].map((s, i) => (
+    <a
+      key={i}
+      href={s.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`cp-social-btn cp-s-${s.cls}`}
+    >
+      <span className="cp-icon">{s.icon}</span>
+      <span>{s.label}</span>
+    </a>
+  ))}
+</div>
             </div>
           </aside>
         </div>

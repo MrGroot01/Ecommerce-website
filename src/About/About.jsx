@@ -51,16 +51,16 @@ const About = () => {
   const [activeValue, setActiveValue] = useState(0);
 
   const stats = [
-    { value: 1000000, suffix: "+", label: "Happy Customers", icon: "😊", color: "grn" },
-    { value: 50000,   suffix: "+", label: "Products Listed",  icon: "📦", color: "blu" },
-    { value: 10000,   suffix: "+", label: "Daily Orders",     icon: "🚀", color: "amb" },
-    { value: 500,     suffix: "+", label: "Brand Partners",   icon: "🤝", color: "pur" },
+    { value: 10000, suffix: "+", label: "Happy Customers", icon: "😊", color: "grn" },
+    { value: 5000,   suffix: "+", label: "Products Listed",  icon: "📦", color: "blu" },
+    { value: 1000,   suffix: "+", label: "Daily Orders",     icon: "🚀", color: "amb" },
+    { value: 50,     suffix: "+", label: "Brand Partners",   icon: "🤝", color: "pur" },
     { value: 98,      suffix: "%", label: "Satisfaction Rate",icon: "⭐", color: "grn" },
-    { value: 30,      suffix: "m", label: "Avg Delivery",     icon: "⚡", color: "red" },
+    { value: 15,      suffix: "m", label: "Avg Delivery",     icon: "⚡", color: "red" },
   ];
 
   const features = [
-    { icon: "⚡", title: "30-Min Delivery",   desc: "Lightning-fast delivery in select cities. Your order reaches you before you even miss it.", color: "grn" },
+    { icon: "⚡", title: "15-Min Delivery",   desc: "Lightning-fast delivery in select cities. Your order reaches you before you even miss it.", color: "grn" },
     { icon: "🛡️", title: "100% Secure",       desc: "End-to-end encrypted payments. We never store your card details — ever.", color: "blu" },
     { icon: "↩️", title: "Easy Returns",      desc: "7-day hassle-free returns on all eligible items. No forms, no questions.", color: "amb" },
     { icon: "💰", title: "Best Price",         desc: "We scan 1000+ sellers to guarantee you the lowest price every single time.", color: "pur" },
@@ -114,13 +114,36 @@ const timeline = [
   }
 ];
 
-  const team = [
-    { name: "Kiran D T",    role: "Team members",     av: "RK", color: "grn",  bio: "Developed a full-stack eCommerce website using React and Django. Focused on UI design, API integration, and payment gateway implementation." },
-    { name: "Shiva Shankar",  role: "Team Members",     av: "PS", color: "blu",  bio: "Worked on backend development using Django REST Framework. Built APIs, handled authentication, and managed database operations." },
-    { name: "Teju patil",  role: "Team Members",     av: "PS", color: "grn",  bio: "Developed a full-stack eCommerce website using React and Django. Focused on UI design, API integration, and payment gateway implementation.." },
-    { name: "Deepak",  role: "Team Members",     av: "PS", color: "blu",  bio: "Worked on backend development using Django REST Framework. Built APIs, handled authentication, and managed database operations." },
-
-  ];
+ const team = [
+  {
+    name: "Kiran D T",
+    role: "Founder & Full Stack Developer",
+    av: "KD",
+    color: "grn",
+    bio: "Developed a full-stack eCommerce website using React and Django. Focused on UI design, API integration, and payment gateway implementation."
+  },
+  {
+    name: "Shiva Shankar",
+    role: "Backend Developer (Core Team)",
+    av: "SS",
+    color: "blu",
+    bio: "Worked on backend development using Django REST Framework. Built APIs, handled authentication, and managed database operations."
+  },
+  {
+    name: "Teju Patil",
+    role: "Project Partner",
+    av: "TP",
+    color: "grn",
+    bio: "Contributed to frontend development and assisted in UI design and feature implementation."
+  },
+  {
+    name: "Deepak",
+    role: "Project Partner",
+    av: "DP",
+    color: "blu",
+    bio: "Supported backend integration, testing, and overall project coordination."
+  }
+];
 
   const categories = [
     { icon: "🥦", name: "Groceries",     count: "1000+", link: "/Products" },
@@ -145,14 +168,14 @@ const timeline = [
           </h1>
           <p className="ab-hero-sub">
             From fresh groceries to medicines to pet food — we deliver everything you need,
-            right to your doorstep in 30 minutes. Founded in 2020, trusted by 1M+ customers.
+            right to your doorstep in 15 minutes. Founded in 2026, trusted by 1M+ customers.
           </p>
           <div className="ab-hero-actions">
             <Link to="/Products" className="ab-hero-cta-primary">Shop Now →</Link>
             <Link to="/contact"  className="ab-hero-cta-ghost">Contact Us</Link>
           </div>
           <div className="ab-hero-pills">
-            <span>🚚 30-Min Delivery</span>
+            <span>🚚 15-Min Delivery</span>
             <span>🔒 Secure Checkout</span>
             <span>↩️ Easy Returns</span>
             <span>⭐ 4.9★ Rated App</span>
@@ -186,7 +209,7 @@ const timeline = [
               We believe that premium quality products shouldn't come with premium wait times or premium price tags.
             </p>
             <ul className="ab-mv-points">
-              <li>✅ Deliver in 30 minutes or less</li>
+              <li>✅ Deliver in 15 minutes or less</li>
               <li>✅ Beat any competitor's price</li>
               <li>✅ Zero compromise on freshness</li>
             </ul>
@@ -315,7 +338,7 @@ const timeline = [
       <section className="ab-app-section">
         <div className="ab-app-inner">
           <div className="ab-app-text">
-            <span className="ab-app-eyebrow">Now on mobile</span>
+            <span className="ab-app-eyebrow">Upcoming  on mobile</span>
             <h2>Shop Smarter on the QuickCart App</h2>
             <p>Exclusive app-only deals, real-time order tracking, and one-tap reorders. Rated 4.9★ by 200K+ users.</p>
             <div className="ab-app-btns">
@@ -335,7 +358,7 @@ const timeline = [
       <section className="ab-cta-section">
         <div className="ab-cta-inner">
           <h2>Ready to experience QuickCart?</h2>
-          <p>Join 1 million+ happy customers. Get your first order delivered in 30 minutes.</p>
+          <p>Join 1 million+ happy customers. Get your first order delivered in 15 minutes.</p>
           <div className="ab-cta-btns">
             <Link to="/Products" className="ab-cta-primary">Start Shopping →</Link>
             <Link to="/contact"  className="ab-cta-ghost">Talk to Us</Link>

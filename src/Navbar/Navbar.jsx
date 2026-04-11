@@ -88,7 +88,7 @@ const Navbar = ({ setShowLogin, user, setUser }) => {
         <div className="top-bar-inner">
           <span>🚀 Free delivery on orders above ₹499</span>
           <span className="divider">|</span>
-          <span>⚡ 30-min delivery in select areas</span>
+          <span>⚡ 15-min delivery in select areas</span>
           <span className="divider">|</span>
           <span>🔒 100% Secure Payments</span>
           <span className="divider">|</span>

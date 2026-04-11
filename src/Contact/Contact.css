@@ -574,3 +574,36 @@ a.cp-quick-item:hover { border-color: var(--grn-b); background: var(--grn-l); }
   .cp-form-head { padding: 18px 20px 14px; }
   .cp-hero-title { font-size: 26px; }
 }
+.cp-social-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cp-social-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.cp-icon {
+  font-size: 16px;
+}
+
+/* Brand Colors */
+.cp-s-fb { background: #1877F2; }
+.cp-s-ig { background: #E4405F; }
+.cp-s-tw { background: #000000; }
+.cp-s-yt { background: #FF0000; }
+
+/* Hover */
+.cp-social-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
