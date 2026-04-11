@@ -3,7 +3,7 @@
 
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./pages.css";
+import "./Pages.css";
 
 const COUPONS = [
   { code:"FIRST20",  title:"20% OFF First Order", desc:"Valid on orders above ₹299", discount:"20%",  expires:"2026-05-31", color:"coup-orange", min:299,  type:"Percent"  },

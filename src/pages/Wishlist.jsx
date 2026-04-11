@@ -4,7 +4,7 @@
 
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./pages.css";
+import "./Pages.css";
 import { cart_data } from "../App";
 
 // ── Persist wishlist in localStorage ──────────────────────────────────────
