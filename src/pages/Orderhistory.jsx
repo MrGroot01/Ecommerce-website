@@ -5,7 +5,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { add_cart } from "../App";
-import "./Pages.css"
+import "./pages.css"
 // ── Utility: load orders from localStorage (saved by Checkout on success) ──
 const loadOrders = () => {
   try {

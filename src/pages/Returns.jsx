@@ -3,7 +3,7 @@
 
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import '/Pages.css'
+import '/pages.css'
 
 const POLICY_ITEMS = [
   { icon:"📅", title:"7-Day Return Window",  desc:"You have 7 days from delivery to initiate a return. Item must be unused, in original packaging with all tags intact." },

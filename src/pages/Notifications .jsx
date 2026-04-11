@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./Pages.css"
+import "./pages.css"
 // ── Load saved notifications from localStorage ─────────────────────────────
 const loadNotifs = () => {
   try { return JSON.parse(localStorage.getItem("myshop_notifications") || "[]"); }

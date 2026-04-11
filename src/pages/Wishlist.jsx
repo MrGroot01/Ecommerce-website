@@ -5,7 +5,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { cart_data } from "../App";
-import '/Pages.css'
+import '/pages.css'
 
 // ── Persist wishlist in localStorage ──────────────────────────────────────
 export const loadWishlist = () => {
