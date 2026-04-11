@@ -7,9 +7,9 @@ import Home from "./Home/Home";
 import About from './About/About';
 import Products from './Products/Products';
 import Contact from './Contact/Contact';
-import Addcart from "./AddCart/Addcart";
-import Rondomimg from "./Randomimg/Rondomimg";
-import PetCare from "./PetCare/PetCare";
+import Addcart from "./AddCart/Addcart.jsx";
+import Rondomimg from "./Randomimg/Rondomimg.jsx";
+import PetCare from "./PetCare/PetCare.jsx";
 import Pharmacy from "./Pharmacy/Pharmacy";
 import Babycare from "./Babycare/Babycare";
 
