@@ -4,9 +4,9 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import Home from "./Home/Home";
-import About from "./About/About";
-import Products from "./Products/Products";
-import Contact from "./Contact/Contact";
+import About from './About/About';
+import Products from './Products/Products';
+import Contact from './Contact/Contact';
 import Addcart from "./AddCart/Addcart";
 import Rondomimg from "./Randomimg/Rondomimg";
 import PetCare from "./PetCare/PetCare";
