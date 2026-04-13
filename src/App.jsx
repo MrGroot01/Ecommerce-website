@@ -26,10 +26,10 @@ import Masala from "./Masala/Masala";
 import Electric from "./Electric/Electric";
 import Cold from "./Cold/Cold";
 import Shoes from "./Shoes/Shoes";
-import OrderHistory from "./pages/Orderhistory";
-import Wishlist from "./pages/Wishlist";
-import Rewards from "./pages/Rewards";
-import Returns from "./pages/Returns";
+import OrderHistory from "./OrdersHistroy/Orderhistory";
+// import Wishlist from "./Wishlist/Wishlist";
+import Rewards from "./Rewards/Rewards";
+import Returns from "./Returns/Returns";
 
 /* CONTEXTS */
 
@@ -251,7 +251,7 @@ const fetch_cart = (item) => {
                             <Route path="/cold" element={<Cold/>} />
                             <Route path="/shoes" element={<Shoes/>}/>
                             <Route path="/orders" element={<OrderHistory/>}/>
-                            <Route path="/wishlist" element={<Wishlist/>} />
+                            {/* <Route path="/wishlist" element={<Wishlist/>} /> */}
                             <Route path="/rewards" element={<Rewards/>} />
                             <Route path="/notifications" element={<Notification/>} />
                             <Route path="/returns" element={<Returns/>} />

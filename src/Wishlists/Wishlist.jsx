@@ -1,12 +1,9 @@
-// FILE: src/pages/Wishlist.jsx
-// Place in: src/pages/Wishlist.jsx
-// Route: /wishlist
+
 
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { cart_data } from "../App";
-import '/pages.css';
-
+import './Wishlist.css'
 // ── Persist wishlist in localStorage ──────────────────────────────────────
 export const loadWishlist = () => {
   try { return JSON.parse(localStorage.getItem("myshop_wishlist") || "[]"); }
