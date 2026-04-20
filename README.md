@@ -23,7 +23,7 @@ This application allows users to browse products, manage their shopping cart, an
 
 🔗 **Frontend:** https://ecomerce-website-gold.vercel.app  
 🎟 **BookMyShow App:** https://book-my-show-gf7w.vercel.app  
-⚙️ **Backend API:** https://petcare-byc5.onrender.com  
+ 
 
 ---
 
