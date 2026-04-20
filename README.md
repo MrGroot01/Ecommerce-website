@@ -134,19 +134,6 @@ src/
 <img width="1920" height="1080" alt="Screenshot 2026-04-10 122528" src="https://github.com/user-attachments/assets/dacdb089-0173-4fd3-a47b-fa1d498988fd" />
 
 
-###⚙️ Installation & Setup
-- 🔹 Frontend:
-- git clone https://github.com/MrGroot01/Ecommerce-website.git
-- cd Ecommerce-website
-- npm install
-- npm run dev
-
-  ##🔹 Backend (Django):
- - cd backend
-- pip install -r requirements.txt
-- python manage.py runserver
-
----
 
 ## 🚀 Future Improvements
 
