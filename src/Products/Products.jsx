@@ -1,12 +1,30 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Products.css";
 import { cart_data, f_data, searchvalue } from "../App";
 import { useNavigate } from "react-router-dom";
 
-/* ── helpers ── */
+/* ─────────────────────────────────────────
+   CONSTANTS
+───────────────────────────────────────── */
 const OFFERS = [10, 15, 18, 20, 25, 30, 35, 40];
-const TAGS = ["Best Seller", "Fresh", "Organic", "Popular", "New"];
+const TAGS   = ["Best Seller", "Fresh", "Organic", "Popular", "New"];
 
+const EXTRA_URLS = [
+  "https://babycare-tawz.onrender.com/api/",
+  "https://pharmacyapi-1.onrender.com/api/",
+  "https://petcare-byc5.onrender.com/api/",
+  "https://masalaitems.onrender.com/api/products/",
+  "https://electronicsitems.onrender.com/api/",
+  "https://myproject-1-6l2h.onrender.com/api/products/",
+  "https://shoes-api-oc8p.onrender.com/shoes/",
+];
+
+const CACHE_KEY = "qk_extra_products";
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
+/* ─────────────────────────────────────────
+   HELPERS
+───────────────────────────────────────── */
 const getOffer = (name) => {
   if (!name) return null;
   const code = name.charCodeAt(0) + name.length;
@@ -25,16 +43,59 @@ const getRating = (name) => {
   return (3.5 + (code % 15) / 10).toFixed(1);
 };
 
-/* ── Star Rating ── */
+/* Fetch with abort-controller timeout */
+const fetchWithTimeout = (url, ms = 6000) => {
+  const ctrl = new AbortController();
+  const id = setTimeout(() => ctrl.abort(), ms);
+  return fetch(url, { signal: ctrl.signal })
+    .then((r) => r.json())
+    .finally(() => clearTimeout(id));
+};
+
+/* Normalise one raw item from any API */
+const normaliseItem = (item) => ({
+  ...item,
+  price: item.discount_price || item.price || 0,
+  image: item.image || item.images || "",
+  name:  item.name  || item.title  || "Product",
+  category: item.category || "General",
+});
+
+/* sessionStorage cache helpers */
+const readCache = () => {
+  try {
+    const raw = sessionStorage.getItem(CACHE_KEY);
+    if (!raw) return null;
+    const { ts, data } = JSON.parse(raw);
+    if (Date.now() - ts > CACHE_TTL) return null;
+    return data;
+  } catch {
+    return null;
+  }
+};
+
+const writeCache = (data) => {
+  try {
+    sessionStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data }));
+  } catch {}
+};
+
+/* ─────────────────────────────────────────
+   STAR RATING
+───────────────────────────────────────── */
 const StarRating = ({ rating }) => {
-  const full = Math.floor(rating);
-  const half = rating % 1 >= 0.5;
+  const full    = Math.floor(rating);
+  const half    = rating % 1 >= 0.5;
   const reviews = Math.floor(rating * 37 + 12);
   return (
     <div className="stars-row">
       <div className="stars">
         {[...Array(5)].map((_, i) => (
-          <svg key={i} className={`star-svg ${i < full ? "filled" : i === full && half ? "half" : "empty"}`} viewBox="0 0 20 20">
+          <svg
+            key={i}
+            className={`star-svg ${i < full ? "filled" : i === full && half ? "half" : "empty"}`}
+            viewBox="0 0 20 20"
+          >
             {i === full && half ? (
               <>
                 <defs>
@@ -43,7 +104,10 @@ const StarRating = ({ rating }) => {
                     <stop offset="50%" stopColor="#D1D5DB" />
                   </linearGradient>
                 </defs>
-                <path fill={`url(#half-${i})`} d="M10 1l2.39 4.84L18 6.76l-4 3.9.94 5.5L10 13.77l-4.94 2.39.94-5.5-4-3.9 5.61-.92z" />
+                <path
+                  fill={`url(#half-${i})`}
+                  d="M10 1l2.39 4.84L18 6.76l-4 3.9.94 5.5L10 13.77l-4.94 2.39.94-5.5-4-3.9 5.61-.92z"
+                />
               </>
             ) : (
               <path d="M10 1l2.39 4.84L18 6.76l-4 3.9.94 5.5L10 13.77l-4.94 2.39.94-5.5-4-3.9 5.61-.92z" />
@@ -51,35 +115,57 @@ const StarRating = ({ rating }) => {
           </svg>
         ))}
       </div>
-      <span className="rating-text">{rating} ({reviews})</span>
+      <span className="rating-text">
+        {rating} ({reviews})
+      </span>
     </div>
   );
 };
 
-/* ── Wishlist Button ── */
+/* ─────────────────────────────────────────
+   WISHLIST BUTTON
+───────────────────────────────────────── */
 const WishlistBtn = ({ name }) => {
   const [wished, setWished] = useState(false);
   return (
-    <button className={`wishlist-btn ${wished ? "wished" : ""}`} onClick={(e) => { e.stopPropagation(); setWished(w => !w); }}>
-      <svg viewBox="0 0 24 24" fill={wished ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
+    <button
+      className={`wishlist-btn ${wished ? "wished" : ""}`}
+      onClick={(e) => {
+        e.stopPropagation();
+        setWished((w) => !w);
+      }}
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill={wished ? "currentColor" : "none"}
+        stroke="currentColor"
+        strokeWidth="2"
+      >
         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
       </svg>
     </button>
   );
 };
 
-/* ── Product Card ── */
+/* ─────────────────────────────────────────
+   PRODUCT CARD
+───────────────────────────────────────── */
 const ProductCard = ({ ele, index, onAddCart, onQuickView }) => {
-  const offer = getOffer(ele.name);
-  const tag = getTag(ele.name);
-  const rating = parseFloat(getRating(ele.name));
+  const offer         = getOffer(ele.name);
+  const tag           = getTag(ele.name);
+  const rating        = parseFloat(getRating(ele.name));
   const originalPrice = offer ? Math.round(Number(ele.price) / (1 - offer / 100)) : null;
-  const [added, setAdded] = useState(false);
+  const [added,     setAdded]     = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
 
   const handleAddCart = (e) => {
     e.stopPropagation();
-    onAddCart({ ...ele, id: "prod-" + index, title: ele.name, image: ele.image || ele.images });
+    onAddCart({
+      ...ele,
+      id:    "prod-" + index,
+      title: ele.name,
+      image: ele.image || ele.images,
+    });
     setAdded(true);
     setTimeout(() => setAdded(false), 1800);
   };
@@ -92,16 +178,30 @@ const ProductCard = ({ ele, index, onAddCart, onQuickView }) => {
           src={ele.image || ele.images}
           alt={ele.name}
           className={`card-img ${imgLoaded ? "loaded" : ""}`}
+          loading="lazy"
           onLoad={() => setImgLoaded(true)}
-          onError={(e) => { e.target.src = "https://via.placeholder.com/300x300?text=No+Image"; setImgLoaded(true); }}
+          onError={(e) => {
+            e.target.src = "https://via.placeholder.com/300x300?text=No+Image";
+            setImgLoaded(true);
+          }}
         />
         <div className="card-overlay">
-          <button className="quick-view-btn" onClick={(e) => { e.stopPropagation(); onQuickView(ele, index); }}>
+          <button
+            className="quick-view-btn"
+            onClick={(e) => {
+              e.stopPropagation();
+              onQuickView(ele, index);
+            }}
+          >
             Quick View
           </button>
         </div>
         {offer && <span className="offer-badge">{offer}% OFF</span>}
-        {tag && <span className={`tag-badge tag-${tag.toLowerCase().replace(" ", "-")}`}>{tag}</span>}
+        {tag   && (
+          <span className={`tag-badge tag-${tag.toLowerCase().replace(" ", "-")}`}>
+            {tag}
+          </span>
+        )}
         <WishlistBtn name={ele.name} />
       </div>
 
@@ -113,12 +213,21 @@ const ProductCard = ({ ele, index, onAddCart, onQuickView }) => {
         <div className="price-block">
           <div className="price-row">
             <span className="current-price">₹{Number(ele.price).toFixed(0)}</span>
-            {originalPrice && <span className="original-price">₹{originalPrice}</span>}
+            {originalPrice && (
+              <span className="original-price">₹{originalPrice}</span>
+            )}
           </div>
-          {offer && <span className="save-chip">Save ₹{(originalPrice - Number(ele.price)).toFixed(0)}</span>}
+          {offer && (
+            <span className="save-chip">
+              Save ₹{(originalPrice - Number(ele.price)).toFixed(0)}
+            </span>
+          )}
         </div>
 
-        <button className={`add-btn ${added ? "added" : ""}`} onClick={handleAddCart}>
+        <button
+          className={`add-btn ${added ? "added" : ""}`}
+          onClick={handleAddCart}
+        >
           {added ? (
             <><span className="btn-icon">✓</span> Added!</>
           ) : (
@@ -130,25 +239,36 @@ const ProductCard = ({ ele, index, onAddCart, onQuickView }) => {
   );
 };
 
-/* ── Quick-View Modal ── */
+/* ─────────────────────────────────────────
+   QUICK-VIEW MODAL
+───────────────────────────────────────── */
 const QuickViewModal = ({ product, index, onClose, onAddCart, navigate }) => {
-  const [qty, setQty] = useState(1);
+  const [qty,   setQty]   = useState(1);
   const [added, setAdded] = useState(false);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, []);
 
   if (!product) return null;
 
-  const offer = getOffer(product.name);
-  const rating = parseFloat(getRating(product.name));
-  const originalPrice = offer ? Math.round(Number(product.price) / (1 - offer / 100)) : null;
+  const offer         = getOffer(product.name);
+  const rating        = parseFloat(getRating(product.name));
+  const originalPrice = offer
+    ? Math.round(Number(product.price) / (1 - offer / 100))
+    : null;
 
   const handleAdd = () => {
     for (let i = 0; i < qty; i++) {
-      onAddCart({ ...product, id: "prod-" + index, title: product.name, image: product.image || product.images });
+      onAddCart({
+        ...product,
+        id:    "prod-" + index,
+        title: product.name,
+        image: product.image || product.images,
+      });
     }
     setAdded(true);
     setTimeout(() => setAdded(false), 1800);
@@ -158,7 +278,9 @@ const QuickViewModal = ({ product, index, onClose, onAddCart, navigate }) => {
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <button className="modal-close" onClick={onClose}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
         </button>
 
         <div className="modal-grid">
@@ -166,9 +288,13 @@ const QuickViewModal = ({ product, index, onClose, onAddCart, navigate }) => {
             <img
               src={product.image || product.images}
               alt={product.name}
-              onError={(e) => { e.target.src = "https://via.placeholder.com/400x400?text=No+Image"; }}
+              onError={(e) => {
+                e.target.src = "https://via.placeholder.com/400x400?text=No+Image";
+              }}
             />
-            {offer && <span className="modal-offer-badge">{offer}% OFF</span>}
+            {offer && (
+              <span className="modal-offer-badge">{offer}% OFF</span>
+            )}
             <div className="modal-img-actions">
               <WishlistBtn name={product.name} />
             </div>
@@ -176,14 +302,20 @@ const QuickViewModal = ({ product, index, onClose, onAddCart, navigate }) => {
 
           <div className="modal-info-side">
             <div className="modal-top">
-              <span className="modal-category">{product.category || "General"}</span>
-              {getTag(product.name) && <span className="modal-tag">{getTag(product.name)}</span>}
+              <span className="modal-category">
+                {product.category || "General"}
+              </span>
+              {getTag(product.name) && (
+                <span className="modal-tag">{getTag(product.name)}</span>
+              )}
             </div>
             <h2 className="modal-title">{product.name}</h2>
             <StarRating rating={rating} />
 
             <div className="modal-price-block">
-              <span className="modal-price">₹{Number(product.price).toFixed(0)}</span>
+              <span className="modal-price">
+                ₹{Number(product.price).toFixed(0)}
+              </span>
               {originalPrice && (
                 <>
                   <span className="modal-original">₹{originalPrice}</span>
@@ -194,12 +326,17 @@ const QuickViewModal = ({ product, index, onClose, onAddCart, navigate }) => {
 
             {offer && (
               <div className="modal-savings-bar">
-                <span>🎉 You save ₹{(originalPrice - Number(product.price)).toFixed(0)} on this item!</span>
+                <span>
+                  🎉 You save ₹
+                  {(originalPrice - Number(product.price)).toFixed(0)} on this
+                  item!
+                </span>
               </div>
             )}
 
             <p className="modal-description">
-              {product.description || "Fresh and quality product delivered right to your doorstep. Sourced carefully to ensure the best quality every time you order."}
+              {product.description ||
+                "Fresh and quality product delivered right to your doorstep. Sourced carefully to ensure the best quality every time you order."}
             </p>
 
             <div className="modal-chips">
@@ -217,12 +354,21 @@ const QuickViewModal = ({ product, index, onClose, onAddCart, navigate }) => {
                 <span>{qty}</span>
                 <button onClick={() => setQty((q) => q + 1)}>+</button>
               </div>
-              <button className={`modal-cart-btn ${added ? "added" : ""}`} onClick={handleAdd}>
+              <button
+                className={`modal-cart-btn ${added ? "added" : ""}`}
+                onClick={handleAdd}
+              >
                 {added ? "✓ Added to Cart!" : "Add to Cart"}
               </button>
             </div>
 
-            <button className="view-full-btn" onClick={() => { onClose(); navigate("/product-details", { state: product }); }}>
+            <button
+              className="view-full-btn"
+              onClick={() => {
+                onClose();
+                navigate("/product-details", { state: product });
+              }}
+            >
               View Full Product Details →
             </button>
           </div>
@@ -232,7 +378,9 @@ const QuickViewModal = ({ product, index, onClose, onAddCart, navigate }) => {
   );
 };
 
-/* ── Skeleton ── */
+/* ─────────────────────────────────────────
+   SKELETON CARD
+───────────────────────────────────────── */
 const SkeletonCard = () => (
   <div className="skeleton-card">
     <div className="skeleton-img-wrap" />
@@ -245,129 +393,98 @@ const SkeletonCard = () => (
   </div>
 );
 
-/* ── CATEGORIES ── */
+/* ─────────────────────────────────────────
+   CATEGORIES CONFIG
+───────────────────────────────────────── */
 const CATEGORIES = [
-  { key: "all", label: "All", icon: "🛍️", nav: null },
-  { key: "vegetables", label: "Vegetables", icon: "🥦", nav: null },
-  { key: "fruits", label: "Fruits", icon: "🍎", nav: null },
-  { key: "pharmacy", label: "Pharmacy", icon: "💊", nav: "/pharmacy" },
-  { key: "petcare", label: "Pet Care", icon: "🐾", nav: "/petcare" },
-  { key: "babycare", label: "Baby Care", icon: "🍼", nav: "/babycare" },
-  { key: "masala", label: "Masala", icon: "🌶️", nav: "/masala" },
-  { key: "electronics", label: "Electronics", icon: "📱", nav: "/electronics" },
-  { key: "cold", label: "Cold Items", icon: "🥤", nav: "/cold" },
-  { key: "shoes", label: "Shoes", icon: "👟", nav: "/shoes" },
+  { key: "all",         label: "All",         icon: "🛍️", nav: null          },
+  { key: "vegetables",  label: "Vegetables",  icon: "🥦", nav: null          },
+  { key: "fruits",      label: "Fruits",      icon: "🍎", nav: null          },
+  { key: "pharmacy",    label: "Pharmacy",    icon: "💊", nav: "/pharmacy"   },
+  { key: "petcare",     label: "Pet Care",    icon: "🐾", nav: "/petcare"    },
+  { key: "babycare",    label: "Baby Care",   icon: "🍼", nav: "/babycare"   },
+  { key: "masala",      label: "Masala",      icon: "🌶️", nav: "/masala"     },
+  { key: "electronics", label: "Electronics", icon: "📱", nav: "/electronics"},
+  { key: "cold",        label: "Cold Items",  icon: "🥤", nav: "/cold"       },
+  { key: "shoes",       label: "Shoes",       icon: "👟", nav: "/shoes"      },
 ];
 
-/* ── MAIN ── */
+/* ─────────────────────────────────────────
+   MAIN COMPONENT
+───────────────────────────────────────── */
 const Products = () => {
-  const data1 = useContext(f_data);
-  const cart1 = useContext(cart_data);
-  const search = useContext(searchvalue);
+  const data1   = useContext(f_data);
+  const cart1   = useContext(cart_data);
+  const search  = useContext(searchvalue);
   const navigate = useNavigate();
 
   const [extraProducts, setExtraProducts] = useState([]);
-  const [category, setCategory] = useState("all");
-  const [loading, setLoading] = useState(true);
-  const [quickView, setQuickView] = useState(null);
-  const [sortBy, setSortBy] = useState("default");
-  const [viewMode, setViewMode] = useState("grid"); // grid | list
+  const [category,      setCategory]      = useState("all");
+  const [loading,       setLoading]       = useState(true);
+  const [quickView,     setQuickView]     = useState(null);
+  const [sortBy,        setSortBy]        = useState("default");
+  const [viewMode,      setViewMode]      = useState("grid");
 
-  const fetchExtraProducts = async () => {
-  setLoading(true);
+  /* ── FETCH EXTRA PRODUCTS with cache + timeout + progressive ── */
+  useEffect(() => {
+    const cached = readCache();
+    if (cached) {
+      setExtraProducts(cached);
+      setLoading(false);
+      return;
+    }
 
-  try {
-    const urls = [
-      "https://babycare-tawz.onrender.com/api/",
-      "https://pharmacyapi-1.onrender.com/api/",
-      "https://petcare-byc5.onrender.com/api/",
-      "https://masalaitems.onrender.com/api/products/",
-      "https://electronicsitems.onrender.com/api/",
-      "https://myproject-1-6l2h.onrender.com/api/products/",
-      "https://shoes-api-oc8p.onrender.com/shoes/"
-    ];
+    /* No cache — start loading but show existing products immediately */
+    setLoading(false); // Remove full-page skeleton; show base products first
+    const accumulated = [];
 
-    const results = await Promise.allSettled(
-      urls.map((url) => fetch(url).then((r) => r.json()))
-    );
+    Promise.allSettled(
+      EXTRA_URLS.map((url) =>
+        fetchWithTimeout(url, 6000)
+          .then((data) => {
+            const items = Array.isArray(data)
+              ? data
+              : data.results || [];
 
-    const merged = [];
+            const mapped = items.map(normaliseItem);
+            accumulated.push(...mapped);
 
-    results.forEach((res) => {
-      if (res.status === "fulfilled") {
-        const data = res.value;
-
-        const items = Array.isArray(data)
-          ? data
-          : data.results || [];
-
-        merged.push(
-          ...items.map((item) => ({
-            ...item,
-            price: item.discount_price || item.price || 0,
-            mainCategory:
-              item.is_cold
-                ? "cold"
-                : item.brand && item.size
-                ? "shoes"
-                : item.brand
-                ? "electronics"
-                : item.manufacturer
-                ? "pharmacy"
-                : item.category?.toLowerCase() || "general",
-            subCategory: item.category?.toLowerCase(),
-            image: item.image,
-          }))
-        );
-      }
+            /* Progressive update — render as each API resolves */
+            setExtraProducts((prev) => [...prev, ...mapped]);
+          })
+          .catch(() => {}) // silently skip failed APIs
+      )
+    ).then(() => {
+      writeCache(accumulated);
     });
+  }, []);
 
-    setExtraProducts(merged);
+  /* ── Merge & filter ── */
+  const allProducts = [...(data1 || []), ...extraProducts];
 
-  } catch (error) {
-    console.error(error);
-  } finally {
-    setLoading(false);
-  }
-}; // ✅ VERY IMPORTANT
-  useEffect(() => { fetchExtraProducts(); }, []);
+  const searched = allProducts.filter((item) =>
+    item.name?.toLowerCase().includes((search || "").toLowerCase())
+  );
 
-  // 🔥 Merge all products
-const allProducts = [...(data1 || []), ...extraProducts];
+  const filtered =
+    category === "all"
+      ? searched
+      : searched.filter((p) =>
+          p.category?.toLowerCase().includes(category.toLowerCase())
+        );
 
-const searched = allProducts.filter((item) =>
-  item.name?.toLowerCase().includes((search || "").toLowerCase())
-);
+  const sorted = [...filtered].sort((a, b) => {
+    if (sortBy === "price-low")  return Number(a.price || 0) - Number(b.price || 0);
+    if (sortBy === "price-high") return Number(b.price || 0) - Number(a.price || 0);
+    if (sortBy === "name")       return (a.name || "").localeCompare(b.name || "");
+    return 0;
+  });
 
-// 📂 CATEGORY FILTER (FIXED - supports all APIs)
-const filtered =
-  category === "all"
-    ? searched
-    : searched.filter((p) =>
-        p.category?.toLowerCase().includes(category.toLowerCase())
-      );
-
-// 🔃 SORTING (SAFE VERSION)
-const sorted = [...filtered].sort((a, b) => {
-  if (sortBy === "price-low") {
-    return Number(a.price || 0) - Number(b.price || 0);
-  }
-
-  if (sortBy === "price-high") {
-    return Number(b.price || 0) - Number(a.price || 0);
-  }
-
-  if (sortBy === "name") {
-    return (a.name || "").localeCompare(b.name || "");
-  }
-
-  return 0;
-});
-
+  /* ─────────── RENDER ─────────── */
   return (
     <div className="products-page">
 
-      {/* ── HERO ── */}
+      {/* HERO */}
       <section className="hero-section">
         <div className="hero-inner">
           <div className="hero-left">
@@ -376,7 +493,9 @@ const sorted = [...filtered].sort((a, b) => {
               Fresh Picks,<br />
               <span className="hero-accent">Unbeatable Prices</span>
             </h1>
-            <p className="hero-sub">Farm-fresh produce & daily essentials delivered in minutes</p>
+            <p className="hero-sub">
+              Farm-fresh produce & daily essentials delivered in minutes
+            </p>
             <div className="hero-trust">
               <div className="trust-item"><span>🚚</span> Free Delivery</div>
               <div className="trust-item"><span>⭐</span> Top Quality</div>
@@ -385,24 +504,36 @@ const sorted = [...filtered].sort((a, b) => {
           </div>
           <div className="hero-right">
             <div className="hero-stat-card">
-              <div className="stat"><span className="stat-num">40%</span><span className="stat-label">Max Off</span></div>
+              <div className="stat">
+                <span className="stat-num">40%</span>
+                <span className="stat-label">Max Off</span>
+              </div>
               <div className="stat-divider" />
-              <div className="stat"><span className="stat-num">500+</span><span className="stat-label">Products</span></div>
+              <div className="stat">
+                <span className="stat-num">500+</span>
+                <span className="stat-label">Products</span>
+              </div>
               <div className="stat-divider" />
-              <div className="stat"><span className="stat-num">15min</span><span className="stat-label">Delivery</span></div>
+              <div className="stat">
+                <span className="stat-num">15min</span>
+                <span className="stat-label">Delivery</span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── CATEGORY NAV ── */}
+      {/* CATEGORY NAV */}
       <nav className="cat-nav">
         <div className="cat-nav-inner">
           {CATEGORIES.map((cat) => (
             <button
               key={cat.key}
               className={`cat-btn ${category === cat.key ? "active" : ""}`}
-              onClick={() => { setCategory(cat.key); if (cat.nav) navigate(cat.nav); }}
+              onClick={() => {
+                setCategory(cat.key);
+                if (cat.nav) navigate(cat.nav);
+              }}
             >
               <span className="cat-emoji">{cat.icon}</span>
               <span>{cat.label}</span>
@@ -411,27 +542,50 @@ const sorted = [...filtered].sort((a, b) => {
         </div>
       </nav>
 
-      {/* ── TOOLBAR ── */}
+      {/* TOOLBAR */}
       <div className="toolbar">
         <div className="toolbar-left">
           <p className="result-count">
             {loading ? (
-              <span className="loading-dots">Loading<span>.</span><span>.</span><span>.</span></span>
+              <span className="loading-dots">
+                Loading<span>.</span><span>.</span><span>.</span>
+              </span>
             ) : (
-              <><strong>{sorted.length}</strong> products found</>
+              <>
+                <strong>{sorted.length}</strong> products found
+                {extraProducts.length === 0 && (
+                  <span className="fetching-badge">⏳ Fetching more…</span>
+                )}
+              </>
             )}
           </p>
         </div>
         <div className="toolbar-right">
           <div className="view-toggle">
-            <button className={`view-btn ${viewMode === "grid" ? "active" : ""}`} onClick={() => setViewMode("grid")} title="Grid View">
-              <svg viewBox="0 0 20 20" fill="currentColor"><path d="M5 3H3v2h2V3zm0 4H3v2h2V7zm0 4H3v2h2v-2zm4-8H7v2h2V3zm0 4H7v2h2V7zm0 4H7v2h2v-2zm4-8h-2v2h2V3zm0 4h-2v2h2V7zm0 4h-2v2h2v-2z" /></svg>
+            <button
+              className={`view-btn ${viewMode === "grid" ? "active" : ""}`}
+              onClick={() => setViewMode("grid")}
+              title="Grid View"
+            >
+              <svg viewBox="0 0 20 20" fill="currentColor">
+                <path d="M5 3H3v2h2V3zm0 4H3v2h2V7zm0 4H3v2h2v-2zm4-8H7v2h2V3zm0 4H7v2h2V7zm0 4H7v2h2v-2zm4-8h-2v2h2V3zm0 4h-2v2h2V7zm0 4h-2v2h2v-2z" />
+              </svg>
             </button>
-            <button className={`view-btn ${viewMode === "list" ? "active" : ""}`} onClick={() => setViewMode("list")} title="List View">
-              <svg viewBox="0 0 20 20" fill="currentColor"><path d="M3 5h14v2H3V5zm0 4h14v2H3V9zm0 4h14v2H3v-2z" /></svg>
+            <button
+              className={`view-btn ${viewMode === "list" ? "active" : ""}`}
+              onClick={() => setViewMode("list")}
+              title="List View"
+            >
+              <svg viewBox="0 0 20 20" fill="currentColor">
+                <path d="M3 5h14v2H3V5zm0 4h14v2H3V9zm0 4h14v2H3v-2z" />
+              </svg>
             </button>
           </div>
-          <select className="sort-select" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+          <select
+            className="sort-select"
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+          >
             <option value="default">Sort: Featured</option>
             <option value="price-low">Price: Low → High</option>
             <option value="price-high">Price: High → Low</option>
@@ -440,7 +594,7 @@ const sorted = [...filtered].sort((a, b) => {
         </div>
       </div>
 
-      {/* ── GRID / LIST ── */}
+      {/* PRODUCT GRID / LIST */}
       {loading ? (
         <div className="product-grid">
           {[...Array(10)].map((_, i) => <SkeletonCard key={i} />)}
@@ -450,7 +604,9 @@ const sorted = [...filtered].sort((a, b) => {
           <div className="empty-icon">🔍</div>
           <h3>No products found</h3>
           <p>Try a different search term or category</p>
-          <button className="empty-reset" onClick={() => setCategory("all")}>Clear Filters</button>
+          <button className="empty-reset" onClick={() => setCategory("all")}>
+            Clear Filters
+          </button>
         </div>
       ) : (
         <div className={viewMode === "list" ? "product-list" : "product-grid"}>
@@ -466,7 +622,7 @@ const sorted = [...filtered].sort((a, b) => {
         </div>
       )}
 
-      {/* ── MODAL ── */}
+      {/* QUICK VIEW MODAL */}
       {quickView && (
         <QuickViewModal
           product={quickView.product}
