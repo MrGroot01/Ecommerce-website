@@ -122,27 +122,27 @@ const timeline = [
     color: "grn",
     bio: "Developed a full-stack eCommerce website using React and Django. Focused on UI design, API integration, and payment gateway implementation."
   },
-  {
-    name: "Shiva Shankar",
-    role: "Backend Developer (Core Team)",
-    av: "SS",
-    color: "blu",
-    bio: "Worked on backend development using Django REST Framework. Built APIs, handled authentication, and managed database operations."
-  },
-  {
-    name: "Teju Patil",
-    role: "Project Partner",
-    av: "TP",
-    color: "grn",
-    bio: "Contributed to frontend development and assisted in UI design and feature implementation."
-  },
-  {
-    name: "Deepak",
-    role: "Project Partner",
-    av: "DP",
-    color: "blu",
-    bio: "Supported backend integration, testing, and overall project coordination."
-  }
+  // {
+  //   name: "Shiva Shankar",
+  //   role: "Backend Developer (Core Team)",
+  //   av: "SS",
+  //   color: "blu",
+  //   bio: "Worked on backend development using Django REST Framework. Built APIs, handled authentication, and managed database operations."
+  // },
+  // {
+  //   name: "Teju Patil",
+  //   role: "Project Partner",
+  //   av: "TP",
+  //   color: "grn",
+  //   bio: "Contributed to frontend development and assisted in UI design and feature implementation."
+  // },
+  // {
+  //   name: "Deepak",
+  //   role: "Project Partner",
+  //   av: "DP",
+  //   color: "blu",
+  //   bio: "Supported backend integration, testing, and overall project coordination."
+  // }
 ];
 
   const categories = [
@@ -318,7 +318,7 @@ const timeline = [
       <section className="ab-team-section">
         <div className="ab-team-inner">
           <div className="ab-section-head">
-            <h2>Meet the Team</h2>
+            <h2>Meet the developer</h2>
             <p>The people building the future of Indian commerce</p>
           </div>
           <div className="ab-team-grid">

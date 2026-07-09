@@ -163,29 +163,93 @@ const Checkout = ({ cartItems, subtotal, delivery, discount, total, onBack }) =>
 
   /* ── Final place order ── */
   const handlePlaceOrderFinal = async () => {
-    setLocalError("");
-    if (!selectedAddr) { setLocalError("Please select a delivery address."); return; }
+  setLocalError("");
 
-    if (selPay === "cod") {
-      saveOrderToHistory(null);
-      clear1();
-      setCodPlaced(true);
-      return;
+  if (!selectedAddr) {
+    setLocalError("Please select a delivery address.");
+    return;
+  }
+
+  try {
+    // ✅ STEP 1: Get location (optional fallback)
+    let lat = null;
+    let lng = null;
+
+    await new Promise((resolve) => {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          lat = pos.coords.latitude;
+          lng = pos.coords.longitude;
+          resolve();
+        },
+        () => resolve()
+      );
+    });
+
+    // ✅ STEP 2: Prepare order data
+    const orderData = {
+      amount: total,
+      delivery_address:
+        selectedAddr.full ||
+        `${selectedAddr.flat}, ${selectedAddr.city}`,
+
+      latitude: lat,
+      longitude: lng,
+
+      items: cartItems.map((item) => ({
+        product_id: item.id || item._id,
+        name: item.name || item.title,
+        price: item.price,
+        quantity: item.qyt || 1,
+        image: item.image || item.images,
+        category: item.category || "",
+      })),
+    };
+
+    // ✅ STEP 3: Call backend
+    const res = await fetch("https://payments-kc7a.onrender.com/api/payments/create-order/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(orderData),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || "Order creation failed");
     }
 
+    // ✅ STEP 4: Start Razorpay using backend order
     await initiatePayment({
+      ...data, // includes razorpay_order_id
       cartItems,
-      deliveryAddress: selectedAddr.full || `${selectedAddr.flat || selectedAddr.line1}, ${selectedAddr.city}`,
-      deliveryCharge:  delivery,
-      userName:  user?.name  || selectedAddr.name,
+      deliveryAddress: orderData.delivery_address,
+      deliveryCharge: delivery,
+      userName: user?.name || selectedAddr.name,
       userEmail: user?.email || "",
       userPhone: user?.phone || selectedAddr.phone,
-      onSuccess: (oid) => { saveOrderToHistory(oid); clear1(); },
+
+      onSuccess: (oid) => {
+        saveOrderToHistory(oid);
+        clear1();
+      },
+
       onFailure: (reason) => {
-        setLocalError(typeof reason === "string" ? reason : reason?.description || "Payment failed.");
+        setLocalError(
+          typeof reason === "string"
+            ? reason
+            : reason?.description || "Payment failed."
+        );
       },
     });
-  };
+
+  } catch (err) {
+    console.error(err);
+    setLocalError(err.message);
+  }
+};
 
   /* ════════════════════════════════
      SUCCESS / FAIL / COD SCREENS
