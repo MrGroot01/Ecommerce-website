@@ -78,7 +78,7 @@ const Navbar = ({ setShowLogin, user, setUser }) => {
     { to: "/About", label: "About" },
     { to: "/Products", label: "Products" },
     { to: "/Contact", label: "Contact" },
-    { to: "/Rondomimg", label: "Gallery" },
+    // { to: "/Rondomimg", label: "Gallery" },
   ];
 
   return (
